@@ -1,0 +1,52 @@
+#ifndef COURSE_H
+#define COURSE_H
+
+#include <vector>
+#include <string>
+#include <iostream>
+
+#include "Grade.h"
+
+using namespace std;
+
+class Course
+{
+    public:
+        // Constructors and Destructors
+        Course(const string& courseName, const string& prof, const string& term);
+//        ~Course();
+
+        // Accessors
+        string getCourseName() const;
+        void setCourseName(const string& courseName);
+        int getNumGrades() const;
+        void setNumGrades(int numGrades);
+        vector<Grade *> getGrades() const;
+        void setGrades(vector<Grade *>& grades);
+        string getProf() const;
+        void setProf(const string& prof);
+        string getTerm() const;
+        void setTerm(const string& term);
+        float getMark() const;
+        void setMark(float mark);
+
+        // Other Methods
+        void addGrade(Grade *grade);
+        Grade* removeGrade(int index);
+        void printGrades() const;
+        void printCourse() const;
+        void printLetterGrade() const;
+
+
+        
+
+    private:
+        string courseName;
+        int numGrades;
+        vector<Grade *> grades;
+        string prof;
+        string term;
+        float mark;
+};
+
+#endif
