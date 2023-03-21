@@ -3,3 +3,4 @@ test.cc
 test.o
 test
 courses.txt
+/test.dSYM

@@ -19,6 +19,8 @@ class GradeManager
         // Accessors
         vector<Course *> getCourses() const;
         void setCourses(vector<Course *>& courses);
+        int getNumCourses() const;
+        void setNumCourses(int numCourses);
 
         // Other Methods
         void addCourse(Course *course);

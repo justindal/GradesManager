@@ -158,7 +158,7 @@ void Course::printLetterGrade() const
 
 ostream &operator<<(ostream &out, const Course &course)
 {
-    out << course.getCourseName() << ':' << endl;
+    out << "courseName: " <<course.getCourseName() << ':' << endl;
     out << '{' << endl;
     out << "\t" << "numGrades: " << course.getNumGrades() << ',' << endl;
     out << "\t" << "prof: " << course.getProf() << ',' <<endl;
