@@ -3,16 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "Grade.h"
 #include "Course.h"
+
+using namespace std;
 
 class GradeManager
 {
     public:
         // Constructors and Destructors
         GradeManager();
-        ~GradeManager();
 
         // Accessors
         vector<Course *> getCourses() const;
@@ -31,6 +33,7 @@ class GradeManager
 
     private:
         vector<Course *> courses;
+        int numCourses;
 
 };
 

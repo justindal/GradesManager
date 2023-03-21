@@ -1,4 +1,5 @@
 #include "Course.h"
+#include <ostream>
 
 Course::Course(const string &courseName, const string &prof, const string &term)
 {
@@ -153,4 +154,22 @@ void Course::printLetterGrade() const
     {
         cout << "Letter Grade: F" << endl;
     }
+}
+
+ostream &operator<<(ostream &out, const Course &course)
+{
+    out << course.getCourseName() << ':' << endl;
+    out << '{' << endl;
+    out << "\t" << "numGrades: " << course.getNumGrades() << ',' << endl;
+    out << "\t" << "prof: " << course.getProf() << ',' <<endl;
+    out << "\t" << "term: " << course.getTerm() << ',' <<endl;
+    out << "\t" << "grades: " << endl;
+    out << "\t" << '{' << endl;
+    for (int i = 0; i < course.getNumGrades(); i++)
+    {
+        out << *course.getGrades()[i] << endl;
+    }
+    out << "\t}" << endl;
+    out << '}' << endl;
+    return out;
 }

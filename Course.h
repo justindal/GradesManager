@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include "Grade.h"
 
@@ -14,7 +15,6 @@ class Course
     public:
         // Constructors and Destructors
         Course(const string& courseName, const string& prof, const string& term);
-//        ~Course();
 
         // Accessors
         string getCourseName() const;
@@ -36,6 +36,10 @@ class Course
         void printGrades() const;
         void printCourse() const;
         void printLetterGrade() const;
+        bool writeToFile(ofstream& outFile);
+
+        // Overloaded Operators
+        friend ostream& operator<<(ostream& out, const Course& course);
 
 
         
