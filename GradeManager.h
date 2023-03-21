@@ -22,7 +22,7 @@ class GradeManager
 
         // Other Methods
         void addCourse(Course *course);
-        void removeCourse(Course *course);
+        Course* removeCourse(int index);
         void printCourses() const;
         void printCourse(Course *course) const;
         void printGrades(Course *course) const;

@@ -75,7 +75,7 @@ ostream &operator<<(ostream &out, const Grade &grade)
     out << "\t\t\tmark: " << grade.getMark() << ',' <<endl;
     out << "\t\t\ttype: " << grade.getType() << ',' <<endl;
     out << "\t\t\tweight: " << grade.getWeight() << ',' <<endl;
-    out << "\t\t\tletter grade: " << grade.getLetterGrade() << ',' <<endl;
+    out << "\t\t\tletter grade: " << grade.getLetterGrade() <<endl;
     out << "\t\t}" << endl;
     return out;
 }
