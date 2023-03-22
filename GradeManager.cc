@@ -30,6 +30,7 @@ void GradeManager::setNumCourses(int numCourses) {
 void GradeManager::printCourses() const {
   for (int i = 0; i < numCourses; i++) {
     courses[i]->printCourse();
+    cout << "\n" << endl;
   }
 }
 
@@ -58,80 +59,21 @@ bool GradeManager::saveCourses() const {
 }
 
 bool GradeManager::loadCourses() {
-  /*
-
-      numCourses: 2,
-courseName: Software Engineering:
-{
-      numGrades: 2,
-      prof: Jun,
-      term: Winter 2023,
-      grades:
-      {
-              name: Assignment 1:
-              {
-                      mark: 10/10,
-                      type: Assignment,
-                      weight: 0.1,
-                      letter grade:
-              }
-
-              name: Test 1:
-              {
-                      mark: 10/14,
-                      type: Test,
-                      weight: 0.4,
-                      letter grade:
-              }
-
-      }
-}
-
-courseName: Intro:
-{
-      numGrades: 2,
-      prof: Jun,
-      term: Winter 2023,
-      grades:
-      {
-              name: Assignment 1:
-              {
-                      mark: 10/10,
-                      type: Assignment,
-                      weight: 0.5,
-                      letter grade:
-              }
-
-              name: Test 1:
-              {
-                      mark: 15/24,
-                      type: Test,
-                      weight: 0.3,
-                      letter grade:
-              }
-
-      }
-}
-
-
-  */
-
   ifstream file;
+  string line;
+  string courseName;
+  string prof;
+  string term;
+  int numGrades;
+  string name;
+  string mark;
+  string type;
+  double weight;
+  string letterGrade;
+  int coursesAdded = 0;
   file.open("courses.txt");
   cout << "Loading courses.txt as follows..." << endl;
   if (file.is_open()) {
-    string line;
-    string courseName;
-    string prof;
-    string term;
-    int numGrades;
-    string name;
-    string mark;
-    string type;
-    double weight;
-    string letterGrade;
-    int coursesAdded = 0;
-
     getline(file, line);
     numCourses = stoi(line.substr(line.find(":") + 1, line.find(",")));
 
@@ -154,12 +96,12 @@ courseName: Intro:
         cout << "Term: " << term << endl;
         cout << "\n" << endl;
         getline(file, line);
-        for (int i = 0; i < numGrades; i++)
-        {
+        Course *course = new Course(courseName, prof, term);
+        for (int i = 0; i < numGrades; i++) {
           getline(file, line);
           // skip empty lines and brackets
-          while (line.empty() || line.find("{") != string::npos || line.find("}") != string::npos)
-          {
+          while (line.empty() || line.find("{") != string::npos ||
+                 line.find("}") != string::npos) {
             getline(file, line);
           }
 
@@ -176,26 +118,24 @@ courseName: Intro:
           type.pop_back();
           cout << "Type: " << type << endl;
           getline(file, line);
-          string g = line.substr(line.find(":") + 1, line.find("\n"));
-          cout << "Weight: " << g << endl;
+          string tmp = line.substr(line.find(": ") + 2, line.find("\n"));
+          tmp.pop_back();
+          weight = stod(tmp);
+          cout << "Weight: " << weight << endl;
 
           getline(file, line);
           letterGrade = line.substr(line.find(":") + 1, line.find("\n"));
-          letterGrade.pop_back();
           cout << "Letter Grade: " << letterGrade << endl;
 
           cout << "\n" << endl;
-        }
 
-        
-        Course *course = new Course(courseName, prof, term);
-        Grade *grade = new Grade(mark, name, type, weight);
-        course->addGrade(grade);
-        addCourse(course);
-        delete grade;
-        delete course;
-        coursesAdded++;
-        cout << "\n" << endl;
+          Grade *grade = new Grade(name, mark, type, weight, letterGrade);
+          course->addGrade(grade);
+        }
+        if (course != nullptr) {
+          courses.push_back(course);
+          coursesAdded++;
+        }
       }
     }
     file.close();

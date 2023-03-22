@@ -98,6 +98,7 @@ void Course::printCourse() const
     cout << "Term: " << term << endl;
     cout << "Number of Grades: " << numGrades << endl;
     cout << "Average Mark: " << mark << "%" << endl;
+    
 }
 
 void Course::printLetterGrade() const

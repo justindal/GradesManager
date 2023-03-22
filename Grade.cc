@@ -1,13 +1,13 @@
 #include "Grade.h"
 #include <istream>
 
-Grade::Grade(string mark, string name, string type, float weight)
+Grade::Grade(const string& mark, const string& name, const string& type, float weight, const string& letterGrade)
 {
     this->mark = mark;
     this->name = name;
     this->type = type;
     this->weight = weight;
-    letterGrade = "A+";
+    this->letterGrade = letterGrade;
 }
 
 string Grade::getMark() const
