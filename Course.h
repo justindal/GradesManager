@@ -36,7 +36,7 @@ class Course
         void printGrades() const;
         void printCourse() const;
         void printLetterGrade() const;
-        bool writeToFile(ofstream& outFile);
+        void calculateMark();
 
         // Overloaded Operators
         friend ostream& operator<<(ostream& out, const Course& course);

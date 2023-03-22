@@ -29,6 +29,8 @@ class Grade
 
         // Other Methods
         void printGrade() const;
+        void print() const;
+        void calculateLetterGrade();
 
         //
         friend ostream& operator<<(ostream& out, const Grade& grade);

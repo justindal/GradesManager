@@ -79,6 +79,67 @@ void Grade::printGrade() const
     cout << "Letter Grade: " << letterGrade << endl;
 }
 
+void Grade::print() const
+{
+    cout << name << ": " << percentageMark << "% (" << letterGrade << ")" << endl;
+}
+
+void Grade::calculateLetterGrade()
+{
+    if (percentageMark >= 90)
+    {
+        letterGrade = "A+";
+    }
+    else if (percentageMark >= 85)
+    {
+        letterGrade = "A";
+    }
+    else if (percentageMark >= 80)
+    {
+        letterGrade = "A-";
+    }
+    else if (percentageMark >= 77)
+    {
+        letterGrade = "B+";
+    }
+    else if (percentageMark >= 73)
+    {
+        letterGrade = "B";
+    }
+    else if (percentageMark >= 70)
+    {
+        letterGrade = "B-";
+    }
+    else if (percentageMark >= 67)
+    {
+        letterGrade = "C+";
+    }
+    else if (percentageMark >= 63)
+    {
+        letterGrade = "C";
+    }
+    else if (percentageMark >= 60)
+    {
+        letterGrade = "C-";
+    }
+    else if (percentageMark >= 57)
+    {
+        letterGrade = "D+";
+    }
+    else if (percentageMark >= 53)
+    {
+        letterGrade = "D";
+    }
+    else if (percentageMark >= 50)
+    {
+        letterGrade = "D-";
+    }
+    else
+    {
+        letterGrade = "F";
+    }
+}
+
 ostream &operator<<(ostream &out, const Grade &grade)
 {
     out << "\t\tname: " << grade.getName() << ":" << endl;
@@ -90,3 +151,4 @@ ostream &operator<<(ostream &out, const Grade &grade)
     out << "\t\t}" << endl;
     return out;
 }
+
