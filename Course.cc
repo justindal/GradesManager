@@ -101,14 +101,13 @@ void Course::printGrades() const
 void Course::printCourse() const
 {
     cout << "COURSE NAME: " << courseName << endl;
-    cout << "--------------------" << endl;
+    cout << "--------------------------" << endl;
     cout << "Professor: " << prof << endl;
     cout << "Term: " << term << endl;
     cout << "Number of Grades: " << numGrades << endl;
     cout << "Current Course Average: " << mark << "%" << endl;
-
-    cout << "Grades: " << endl;
-    cout << "--------------------" << endl;
+    cout << "GRADES: " << endl;
+    cout << "--------------------------" << endl;
     printGrades();
     
 }

@@ -1,4 +1,4 @@
-objects = Grade.o Course.o GradeManager.o test.o
+objects = Grade.o Course.o GradeManager.o main.o
 
 all: $(objects)
 	g++ -o GradeManager $(objects)
@@ -12,8 +12,8 @@ Course.o: Course.cc
 GradeManager.o: GradeManager.cc
 	g++ -c GradeManager.cc
 
-test.o: test.cc
-	g++ -c test.cc
+main.o: main.cc
+	g++ -c main.cc
 
 clean:
 	rm GradeManager $(objects)

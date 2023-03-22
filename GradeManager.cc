@@ -1,5 +1,4 @@
 #include "GradeManager.h"
-#include <cctype>
 
 GradeManager::GradeManager() { numCourses = 0; }
 
