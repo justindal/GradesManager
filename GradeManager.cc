@@ -141,18 +141,27 @@ bool GradeManager::loadCourses()
                 cout << "letterGrade: " << letterGrade << endl;
                 getline(file, line);
                 cout << "\n" << endl;
+                Grade *grade = new Grade(mark, name, type, weight, letterGrade);
+                course->addGrade(grade);
             }
             getline(file, line);
             getline(file, line);
             getline(file, line);
             getline(file, line);
+
+            if (course != nullptr)
+            {
+                courses.push_back(course);
+            }
+            
+
+            
         }
         file.close();
         cout << "Courses loaded successfully!" << endl;
         return true;
     }
-    else
-    {
-        return false;
-    }
+    
+    return false;
+    
 }
