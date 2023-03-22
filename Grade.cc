@@ -7,6 +7,7 @@ Grade::Grade(string mark, string name, string type, float weight)
     this->name = name;
     this->type = type;
     this->weight = weight;
+    letterGrade = "A+";
 }
 
 string Grade::getMark() const

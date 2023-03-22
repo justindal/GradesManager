@@ -1,4 +1,5 @@
 #include "GradeManager.h"
+#include <string>
 
 GradeManager::GradeManager() { numCourses = 0; }
 
@@ -117,7 +118,7 @@ courseName: Intro:
 
   ifstream file;
   file.open("courses.txt");
-
+  cout << "Loading courses.txt as follows..." << endl;
   if (file.is_open()) {
     string line;
     string courseName;
@@ -136,39 +137,68 @@ courseName: Intro:
 
     while (getline(file, line)) {
       if (line.find("courseName") != string::npos) {
-        courseName = line.substr(line.find(":") + 1, line.find(":") + 1);
+        courseName = line.substr(line.find(":") + 1, line.find("\n"));
+        courseName.pop_back();
+        cout << "Course Name: " << courseName << endl;
         getline(file, line);
         getline(file, line);
-        prof = line.substr(line.find(":") + 1, line.find(":") + 1);
+        numGrades = stoi(line.substr(line.find(":") + 1, line.find(",")));
+        cout << "Number of Grades: " << numGrades << endl;
         getline(file, line);
-        term = line.substr(line.find(":") + 1, line.find(":") + 1);
+        prof = line.substr(line.find(":") + 1);
+        prof.pop_back();
+        cout << "Professor: " << prof << endl;
         getline(file, line);
+        term = line.substr(line.find(":") + 1);
+        term.pop_back();
+        cout << "Term: " << term << endl;
+        cout << "\n" << endl;
         getline(file, line);
-        numGrades = stoi(line.substr(line.find(":") + 1, line.find(":") + 1));
-        getline(file, line);
-        getline(file, line);
-        getline(file, line);
-        for (int i = 0; i < numGrades; i++) {
-          name = line.substr(line.find(":") + 1, line.find(":") + 1);
+        for (int i = 0; i < numGrades; i++)
+        {
+          getline(file, line);
+          // skip empty lines and brackets
+          while (line.empty() || line.find("{") != string::npos || line.find("}") != string::npos)
+          {
+            getline(file, line);
+          }
+
+          name = line.substr(line.find(":") + 1, line.find("\n"));
+          name.pop_back();
+          cout << "Grade Name: " << name << endl;
           getline(file, line);
           getline(file, line);
-          mark = line.substr(line.find(":") + 1, line.find(":") + 1);
+          mark = line.substr(line.find(":") + 1, line.find("\n"));
+          mark.pop_back();
+          cout << "Mark: " << mark << endl;
           getline(file, line);
-          type = line.substr(line.find(":") + 1, line.find(":") + 1);
+          type = line.substr(line.find(":") + 1, line.find("\n"));
+          type.pop_back();
+          cout << "Type: " << type << endl;
           getline(file, line);
-          weight = stod(line.substr(line.find(":") + 1, line.find(":") + 1));
+          string g = line.substr(line.find(":") + 1, line.find("\n"));
+          cout << "Weight: " << g << endl;
+
           getline(file, line);
-          getline(file, line);
-          getline(file, line);
-          getline(file, line);
+          letterGrade = line.substr(line.find(":") + 1, line.find("\n"));
+          letterGrade.pop_back();
+          cout << "Letter Grade: " << letterGrade << endl;
+
+          cout << "\n" << endl;
         }
+
+        
         Course *course = new Course(courseName, prof, term);
         Grade *grade = new Grade(mark, name, type, weight);
         course->addGrade(grade);
         addCourse(course);
+        delete grade;
+        delete course;
         coursesAdded++;
+        cout << "\n" << endl;
       }
     }
+    file.close();
   }
   return false;
 }
