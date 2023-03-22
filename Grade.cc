@@ -60,6 +60,16 @@ void Grade::setWeight(float weight)
     this->weight = weight;
 }
 
+float Grade::getPercentageMark() const
+{
+    return percentageMark;
+}
+
+void Grade::setPercentageMark(float percentageMark)
+{
+    this->percentageMark = percentageMark;
+}
+
 void Grade::printGrade() const
 {
     cout << "Name: " << name << endl;

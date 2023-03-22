@@ -4,3 +4,5 @@ test.o
 test
 courses.txt
 /test.dSYM
+*.o
+GradeManager

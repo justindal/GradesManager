@@ -24,6 +24,8 @@ class Grade
         void setLetterGrade(const string& letterGrade);
         float getWeight() const;
         void setWeight(float weight);
+        float getPercentageMark() const;
+        void setPercentageMark(float percentageMark);
 
         // Other Methods
         void printGrade() const;
@@ -37,6 +39,7 @@ class Grade
         string type;
         string letterGrade;
         float weight;
+        float percentageMark;
 };
 
 #endif

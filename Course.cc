@@ -71,6 +71,12 @@ void Course::setMark(float mark)
 
 void Course::addGrade(Grade *grade)
 {
+    // Calculate the percentage mark from string ex: 10/24
+    string mark = grade->getMark();
+    int numerator = stoi(mark.substr(0, mark.find("/")));
+    int denominator = stoi(mark.substr(mark.find("/") + 1));
+    float percentage = (float)numerator / (float)denominator * 100;
+    grade->setPercentageMark(percentage);
     grades.push_back(grade);
     numGrades++;
 }
@@ -87,7 +93,7 @@ void Course::printGrades() const
 {
     for (int i = 0; i < numGrades; i++)
     {
-        cout << "Grade " << i + 1 << ": " << grades[i]->getName() << " - " << grades[i]->getMark() << "%" << endl;
+        cout << "Grade " << i + 1 << ": " << grades[i]->getName() << " - " << grades[i]->getPercentageMark() << "%" << endl;
     }
 }
 
@@ -98,6 +104,9 @@ void Course::printCourse() const
     cout << "Term: " << term << endl;
     cout << "Number of Grades: " << numGrades << endl;
     cout << "Average Mark: " << mark << "%" << endl;
+
+    cout << "Grades: " << endl;
+    printGrades();
     
 }
 
