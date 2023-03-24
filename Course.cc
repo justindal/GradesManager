@@ -84,8 +84,8 @@ void Course::addGrade(Grade *grade)
 
 Grade *Course::removeGrade(int index)
 {
-    Grade *grade = grades[index];
-    grades.erase(grades.begin() + index);
+    Grade *grade = grades[index-1];
+    grades.erase(grades.begin() + index-1);
     numGrades--;
     return grade;
 }
@@ -94,6 +94,8 @@ void Course::printGrades() const
 {
     for (int i = 0; i < numGrades; i++)
     {
+        // print index but do not flush
+        cout << i + 1 << ": ";
         grades[i]->print();
     }
 }
@@ -110,6 +112,11 @@ void Course::printCourse() const
     cout << "--------------------------" << endl;
     printGrades();
     
+}
+
+void Course::print() const
+{
+    cout << "COURSE NAME: " << courseName << endl;
 }
 
 void Course::printLetterGrade() const
@@ -195,4 +202,9 @@ ostream &operator<<(ostream &out, const Course &course)
     out << "\t}" << endl;
     out << '}' << endl;
     return out;
+}
+
+Grade *Course::getGradeAt(int index) const
+{
+    return grades[index-1];
 }

@@ -17,8 +17,8 @@ void GradeManager::addCourse(Course *course)
 
 Course *GradeManager::removeCourse(int index)
 {
-    Course *course = courses[index];
-    courses.erase(courses.begin() + index);
+    Course *course = courses[index-1];
+    courses.erase(courses.begin() + index-1);
     numCourses--;
     return course;
 }
@@ -32,11 +32,10 @@ void GradeManager::setNumCourses(int numCourses)
 
 void GradeManager::printCourses() const
 {
+    cout << "Currently Loaded Courses:" << endl;
     for (int i = 0; i < numCourses; i++)
     {
-        courses[i]->printCourse();
-        cout << "\n"
-             << endl;
+        cout << i + 1 << ". " << courses[i]->getCourseName() << endl;
     }
 }
 
@@ -164,3 +163,5 @@ bool GradeManager::loadCourses()
     return false;
     
 }
+
+Course *GradeManager::getCourseAt(int index) const { return courses[index-1]; }

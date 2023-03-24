@@ -21,6 +21,7 @@ class GradeManager
         void setCourses(vector<Course *>& courses);
         int getNumCourses() const;
         void setNumCourses(int numCourses);
+        Course *getCourseAt(int index) const;
 
         // Other Methods
         void addCourse(Course *course);

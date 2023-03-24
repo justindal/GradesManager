@@ -29,12 +29,14 @@ class Course
         void setTerm(const string& term);
         float getMark() const;
         void setMark(float mark);
+        Grade *getGradeAt(int index) const;
 
         // Other Methods
         void addGrade(Grade *grade);
         Grade* removeGrade(int index);
         void printGrades() const;
         void printCourse() const;
+        void print() const;
         void printLetterGrade() const;
         void calculateMark();
 

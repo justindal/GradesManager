@@ -10,6 +10,14 @@ Grade::Grade(const string& mark, const string& name, const string& type, float w
     this->letterGrade = letterGrade;
 }
 
+Grade::Grade(const string& mark, const string& name, const string& type, float weight)
+{
+    this->mark = mark;
+    this->name = name;
+    this->type = type;
+    this->weight = weight;
+}
+
 string Grade::getMark() const
 {
     return mark;
@@ -18,6 +26,7 @@ string Grade::getMark() const
 void Grade::setMark(string mark)
 {
     this->mark = mark;
+    calculateLetterGrade();
 }
 
 string Grade::getName() const

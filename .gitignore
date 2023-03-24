@@ -1,8 +1,7 @@
-example.txt
-test.cc
-test.o
-test
-courses.txt
-/test.dSYM
+*.txt
 *.o
+test.cc
 GradeManager
+test
+/test.dSYM
+.vscode
