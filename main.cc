@@ -188,6 +188,10 @@ int main()
         case 10:
             gradeManager->printCourses();
             break;
+        case 11:
+            gradeManager->clearCourses();
+            cout << "Courses cleared!" << endl;
+            break;
         default:
             gradeManager->saveCourses();
             cout << "Exiting..." << endl;
@@ -213,6 +217,7 @@ void showOptions()
         cout << "8.  Edit Grade" << endl;
         cout << "9.  Edit Course" << endl;
         cout << "10. Print All Course Info" << endl;
+        cout << "11. Clear Saved Courses" << endl;
         cout << "0. Exit" << endl;
         cout << "\nEnter your choice: ";
 }

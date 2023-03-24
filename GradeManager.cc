@@ -165,3 +165,13 @@ bool GradeManager::loadCourses()
 }
 
 Course *GradeManager::getCourseAt(int index) const { return courses[index-1]; }
+
+void GradeManager::clearCourses()
+{
+    for (int i = 0; i < numCourses; i++)
+    {
+        delete courses[i];
+    }
+    courses.clear();
+    numCourses = 0;
+}

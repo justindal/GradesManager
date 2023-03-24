@@ -32,6 +32,7 @@ class GradeManager
         void printGrade(Grade *grade) const;
         bool saveCourses() const;
         bool loadCourses();
+        void clearCourses();
 
 
     private:
