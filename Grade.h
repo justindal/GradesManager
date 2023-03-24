@@ -13,7 +13,7 @@ class Grade
         // Constructors and Destructors
         Grade(const string& mark, const string& name, const string& type, float weight, const string& letterGrade);
         Grade(const string& mark, const string& name, const string& type, float weight);
-
+        Grade();
 
         // Accessors
         string getMark() const;

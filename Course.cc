@@ -9,6 +9,14 @@ Course::Course(const string &courseName, const string &prof, const string &term)
     numGrades = 0;
 }
 
+Course::Course()
+{
+    courseName = "";
+    prof = "";
+    term = "";
+    numGrades = 0;
+}
+
 string Course::getCourseName() const
 {
     return courseName;

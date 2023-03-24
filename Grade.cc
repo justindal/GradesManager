@@ -18,6 +18,16 @@ Grade::Grade(const string& mark, const string& name, const string& type, float w
     this->weight = weight;
 }
 
+// default constructor
+Grade::Grade()
+{
+    mark = "";
+    name = "";
+    type = "";
+    weight = 0;
+    letterGrade = "";
+}
+
 string Grade::getMark() const
 {
     return mark;

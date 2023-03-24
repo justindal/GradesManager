@@ -189,7 +189,6 @@ int main()
             gradeManager->printCourses();
             break;
         case 11:
-            gradeManager->clearCourses();
             cout << "Courses cleared!" << endl;
             break;
         default:

@@ -3,5 +3,6 @@
 test.cc
 GradeManager
 test
+tester
 /test.dSYM
 .vscode

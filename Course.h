@@ -15,7 +15,7 @@ class Course
     public:
         // Constructors and Destructors
         Course(const string& courseName, const string& prof, const string& term);
-
+        Course();
         // Accessors
         string getCourseName() const;
         void setCourseName(const string& courseName);

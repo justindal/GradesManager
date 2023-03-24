@@ -2,6 +2,7 @@
 
 GradeManager::GradeManager() { numCourses = 0; }
 
+
 vector<Course *> GradeManager::getCourses() const { return courses; }
 
 void GradeManager::setCourses(vector<Course *> &courses)
@@ -32,6 +33,12 @@ void GradeManager::setNumCourses(int numCourses)
 
 void GradeManager::printCourses() const
 {
+    if (numCourses == 0)
+    {
+        cout << "No courses loaded!" << endl;
+        return;
+    }
+
     cout << "Currently Loaded Courses:" << endl;
     for (int i = 0; i < numCourses; i++)
     {
@@ -82,8 +89,17 @@ bool GradeManager::loadCourses()
     string type;
     double weight;
     string letterGrade;
+    Grade *grade = new Grade();
+    Course *course = new Course();
     file.open("courses.txt");
     cout << "Loading courses.txt as follows..." << endl;
+
+    // check if file contains data
+    if (file.peek() == ifstream::traits_type::eof())
+    {
+        cout << "File is empty!" << endl;
+        return false;
+    }
 
     if (file.is_open())
     {
@@ -108,7 +124,9 @@ bool GradeManager::loadCourses()
             term = line.substr(line.find(":") + 2, line.find(","));
             term.pop_back();
             cout << "term: " << term << endl;
-            Course *course = new Course(courseName, prof, term);
+            course->setCourseName(courseName);
+            course->setProf(prof);
+            course->setTerm(term);
             getline(file, line);
             getline(file, line);
 
@@ -139,39 +157,39 @@ bool GradeManager::loadCourses()
                 cout << "letterGrade: " << letterGrade << endl;
                 getline(file, line);
                 cout << "\n" << endl;
-                Grade *grade = new Grade(mark, name, type, weight, letterGrade);
+                grade->setMark(mark);
+                grade->setType(type);
+                grade->setWeight(weight);
+                grade->setName(name);
+                grade->setLetterGrade(letterGrade);
                 course->addGrade(grade);
             }
-            getline(file, line);
-            getline(file, line);
-            getline(file, line);
-            getline(file, line);
-
+            if (numGrades == 0)
+            {
+                getline(file, line);
+                getline(file, line);
+                getline(file, line);
+            }
+            else 
+            {
+                getline(file, line);
+                getline(file, line);
+                getline(file, line);
+                getline(file, line);
+            }
             if (course != nullptr)
             {
                 courses.push_back(course);
             }
-            
-
-            
+            cin.clear();
+            cout << "course " << i + 1 << " loaded successfully!" << endl;
         }
+        delete grade;
         file.close();
-        cout << "Courses loaded successfully!" << endl;
+        cout << "loaded successfully!" << endl;
         return true;
     }
-    
     return false;
-    
 }
 
 Course *GradeManager::getCourseAt(int index) const { return courses[index-1]; }
-
-void GradeManager::clearCourses()
-{
-    for (int i = 0; i < numCourses; i++)
-    {
-        delete courses[i];
-    }
-    courses.clear();
-    numCourses = 0;
-}
