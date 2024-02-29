@@ -12,15 +12,18 @@ class AddCourseDialog : public QDialog {
 public:
     explicit AddCourseDialog(QWidget *parent = nullptr);
 
-    private slots:
-        void submitForm();
-
-private:
 private:
     QLineEdit *courseNameEdit;
     QLineEdit *courseCodeEdit;
     QLineEdit *courseDescriptionEdit;
     QLineEdit *courseCreditsEdit;
+
+private slots:
+        void submitForm();
+
+signals:
+    void courseDataSubmitted(const QString &courseName, const QString &courseCode, const QString &courseDescription,
+        const QString &courseCredits);
 };
 
 #endif // ADDCOURSEDIALOG_H

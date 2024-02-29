@@ -21,7 +21,9 @@ public:
     ~GradeManagerGUI() override;
 
 private slots:
-        static void openAddCourseDialog();
+    void openAddCourseDialog();
+    void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription,
+        const QString &courseCredits);
 
 private:
     Ui::GradeManagerGUI *ui;

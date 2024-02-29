@@ -23,7 +23,15 @@ GradeManagerGUI::~GradeManagerGUI() {
 }
 
 void GradeManagerGUI::openAddCourseDialog() {
-    AddCourseDialog addCourseDialog;
-    addCourseDialog.setModal(true);
-    addCourseDialog.exec();
+    auto *addCourseDialog = new AddCourseDialog;
+    connect(addCourseDialog, &AddCourseDialog::courseDataSubmitted, this, &GradeManagerGUI::handleCourseData);
+    addCourseDialog->setModal(true);
+    addCourseDialog->exec();
+}
+
+void GradeManagerGUI::handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription, const QString &courseCredits) {
+    cout << "Course Name: " << courseName.toStdString() << endl;
+    cout << "Course Code: " << courseCode.toStdString() << endl;
+    cout << "Course Description: " << courseDescription.toStdString() << endl;
+    cout << "Course Credits: " << courseCredits.toStdString() << endl;
 }
