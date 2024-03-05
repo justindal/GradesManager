@@ -12,9 +12,6 @@
 GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     QWidget(parent), ui(new Ui::GradeManagerGUI) {
     ui->setupUi(this);
-    GradeManager gradeManager;
-    gradeManager.openDatabase();
-
     connect(ui->addCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddCourseDialog);
 }
 
@@ -30,8 +27,9 @@ void GradeManagerGUI::openAddCourseDialog() {
 }
 
 void GradeManagerGUI::handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription, const QString &courseCredits) {
-    cout << "Course Name: " << courseName.toStdString() << endl;
-    cout << "Course Code: " << courseCode.toStdString() << endl;
-    cout << "Course Description: " << courseDescription.toStdString() << endl;
-    cout << "Course Credits: " << courseCredits.toStdString() << endl;
+    // Handle course data here
+    // You can access the course data from the dialog with the parameters
+    // You can use the gradeManager object to add the course to the database
+    Course course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), courseCredits.toStdString());
+    gradeManager.addCourse(&course);
 }

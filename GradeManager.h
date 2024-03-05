@@ -3,9 +3,13 @@
 
 #include <vector>
 #include <string>
-#include <sqlite3.h>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+#include <QString>
 #include "Course.h"
 
+using namespace std;
 
 class GradeManager {
 
@@ -13,14 +17,16 @@ public:
     // Constructors and Destructors
     GradeManager();
     ~GradeManager();
+
     // Database Methods
     bool openDatabase();
-    void closeDatabase() const;
-    bool executeSQL(const std::string& sql) const;
+    void closeDatabase();
+    bool executeSQL(const string& sql) const;
+    bool initializeDatabase() const;
 
     // Accessors
-    [[nodiscard]] std::vector<Course*> getCourses() const;
-    void setCourses(const std::vector<Course*>& courses);
+    [[nodiscard]] vector<Course*> getCourses() const;
+    void setCourses(const vector<Course*>& courses);
 
     // Other Methods
     void addCourse(Course* course);
@@ -31,7 +37,7 @@ public:
 
 private:
     std::vector<Course*> courses;
-    sqlite3* db;
+    QSqlDatabase db;
 };
 
 

@@ -2,75 +2,59 @@
 #include "GradeManager.h"
 
 GradeManager::GradeManager() {
-    db = nullptr;
+    static int count = 0;
+    db = QSqlDatabase::addDatabase("QSQLITE", QString("Connection%1").arg(count++));
+    openDatabase();
+    initializeDatabase();
 }
 
 GradeManager::~GradeManager() {
+    for (auto const course : courses) {
+        delete course;
+    }
     closeDatabase();
 }
 
 bool GradeManager::openDatabase() {
-    int rc = sqlite3_open("database.sqlite", &db);
-    if (rc) {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+    db.setDatabaseName("database.db");
+    if (!db.open()) {
+        std::cerr << "Error opening database: " << db.lastError().text().toStdString() << std::endl;
         return false;
-    } else {
-        char *errMsg = nullptr;
-        std::string sql;
-
-        // Create Course table
-        sql = "CREATE TABLE IF NOT EXISTS Course("  \
-              "ID INTEGER PRIMARY KEY AUTOINCREMENT," \
-              "COURSENAME      TEXT    NOT NULL," \
-              "NUMGRADES       INT     NOT NULL," \
-              "PROF            TEXT    NOT NULL," \
-              "TERM            TEXT    NOT NULL," \
-              "MARK            REAL    NOT NULL);";
-
-        rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
-        if (rc != SQLITE_OK) {
-            std::cerr << "SQL error: " << errMsg << std::endl;
-            sqlite3_free(errMsg);
-            return false;
-        }
-
-        // Create Grade table
-        sql = "CREATE TABLE IF NOT EXISTS Grade("  \
-              "ID INTEGER PRIMARY KEY AUTOINCREMENT," \
-              "COURSE_ID       INT     NOT NULL," \
-              "MARK            TEXT    NOT NULL," \
-              "NAME            TEXT    NOT NULL," \
-              "TYPE            TEXT    NOT NULL," \
-              "WEIGHT          REAL    NOT NULL," \
-              "LETTERGRADE     TEXT    NOT NULL," \
-              "PERCENTAGEMARK  REAL    NOT NULL," \
-              "FOREIGN KEY(COURSE_ID) REFERENCES Course(ID));";
-
-        rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
-        if (rc != SQLITE_OK) {
-            std::cerr << "SQL error: " << errMsg << std::endl;
-            sqlite3_free(errMsg);
-            return false;
-        }
-
-        std::cout << "Opened database successfully" << std::endl;
-        return true;
     }
+    cout << "Database opened successfully" << endl;
+    return true;
 }
 
-void GradeManager::closeDatabase() const
-{
-    if (db) {
-        sqlite3_close(db);
+bool GradeManager::initializeDatabase() const {
+    const QString createCourseTable = "CREATE TABLE IF NOT EXISTS Course (ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSENAME TEXT, NUMGRADES INTEGER, PROF TEXT, TERM TEXT, MARK REAL);";
+    const QString createGradeTable = "CREATE TABLE IF NOT EXISTS Grade (ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSEID INTEGER, NAME TEXT, WEIGHT REAL, MARK REAL);";
+    QSqlQuery query(db);
+
+    if (!query.exec(createCourseTable)) {
+        std::cerr << "Error creating Course table: " << query.lastError().text().toStdString() << std::endl;
+        return false;
     }
+
+    if (!query.exec(createGradeTable)) {
+        std::cerr << "Error creating Grade table: " << query.lastError().text().toStdString() << std::endl;
+        return false;
+    }
+
+    cout << "Database initialized successfully" << endl;
+
+    return true;
+}
+
+void GradeManager::closeDatabase()
+{
+    db.close();
+    cout << "Database closed successfully" << endl;
 }
 
 bool GradeManager::executeSQL(const std::string& sql) const {
-    char *errMsg = nullptr;
-    int rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
+    QSqlQuery query(db);
+    if (!query.exec(QString::fromStdString(sql))) {
+        std::cerr << "SQL error: " << query.lastError().text().toStdString() << std::endl;
         return false;
     }
     return true;
@@ -86,7 +70,7 @@ void GradeManager::setCourses(const std::vector<Course*>& courses) {
 
 void GradeManager::addCourse(Course* course) {
     courses.push_back(course);
-    std::string sql = "INSERT INTO Course (COURSENAME, NUMGRADES, PROF, TERM, MARK) VALUES ('" +
+    const std::string sql = "INSERT INTO Course (COURSENAME, NUMGRADES, PROF, TERM, MARK) VALUES ('" +
                      course->getCourseName() + "', " +
                      std::to_string(course->getNumGrades()) + ", '" +
                      course->getProf() + "', '" +

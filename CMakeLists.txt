@@ -10,6 +10,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Sql
         REQUIRED)
 
 add_executable(GradesManager main.cpp
@@ -28,6 +29,6 @@ target_link_libraries(GradesManager
         Qt::Core
         Qt::Gui
         Qt::Widgets
-        sqlite3
+        Qt::Sql
 )
 
