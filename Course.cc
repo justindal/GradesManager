@@ -71,6 +71,22 @@ void Course::setMark(float mark) {
     return grades.at(index);
 }
 
+[[nodiscard]] string Course::getCourseCode() const {
+    return courseCode;
+}
+
+void Course::setCourseCode(const string& courseCode) {
+    this->courseCode = courseCode;
+}
+
+[[nodiscard]] float Course::getAverage() const {
+    float total = 0;
+    for (auto & grade : grades) {
+        total += grade->getPercentageMark();
+    }
+    return total / numGrades;
+}
+
 // Other Methods
 void Course::addGrade(Grade *grade) {
     grades.push_back(grade);

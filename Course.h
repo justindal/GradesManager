@@ -15,6 +15,7 @@ class Course
         Course(const string& courseName, const string& courseCode, const string& prof, const string& term);
         Course();
         ~Course();
+
         // Accessors
         [[nodiscard]] string getCourseName() const;
         void setCourseName(const string& courseName);
@@ -29,6 +30,9 @@ class Course
         [[nodiscard]] float getMark() const;
         void setMark(float mark);
         [[nodiscard]] Grade *getGradeAt(int index) const;
+        [[nodiscard]] string getCourseCode() const;
+        void setCourseCode(const string& courseCode);
+        [[nodiscard]] float getAverage() const;
 
         // Other Methods
         void addGrade(Grade *grade);
@@ -41,9 +45,6 @@ class Course
 
         // Overloaded Operators
         friend ostream& operator<<(ostream& out, const Course& course);
-
-
-
 
     private:
         string courseName;

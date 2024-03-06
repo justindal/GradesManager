@@ -34,6 +34,7 @@ public:
     void printCourses() const;
     void addGradeToCourse(int index, Grade* grade);
     void removeGradeFromCourse(int courseIndex, int gradeIndex);
+    void readCoursesFromDatabase();
 
 private:
     std::vector<Course*> courses;

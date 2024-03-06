@@ -13,6 +13,7 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     QWidget(parent), ui(new Ui::GradeManagerGUI) {
     ui->setupUi(this);
     connect(ui->addCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddCourseDialog);
+    populateCourseList();
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
@@ -32,4 +33,13 @@ void GradeManagerGUI::handleCourseData(const QString &courseName, const QString 
     // You can use the gradeManager object to add the course to the database
     Course course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), courseCredits.toStdString());
     gradeManager.addCourse(&course);
+    populateCourseList();
+}
+
+void GradeManagerGUI::populateCourseList() {
+    ui->courseListWidget->clear();
+    auto courses = gradeManager.getCourses();
+    for (const auto& course : courses) {
+        ui->courseListWidget->addItem(QString::fromStdString(course->getCourseName()));
+    }
 }
