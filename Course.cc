@@ -136,12 +136,16 @@ void Course::printCourse() const {
     printGrades();
 }
 
-void Course::print() const {
-    cout << "Course Name: " << courseName << endl;
-    cout << "Course Code: " << courseCode << endl;
-    cout << "Professor: " << prof << endl;
-    cout << "Term: " << term << endl;
-    cout << "Mark: " << mark << endl;
+const string Course::print() const {
+
+    string output = "Course Name: " + courseName + "\n\n" +
+                    "Course Code: " + courseCode + "\n\n" +
+                    "Professor: " + prof + "\n\n" +
+                    "Term: " + term + "\n\n" +
+                    "Credit Worth: " + to_string(creditWorth) + "\n\n" +
+                        "Mark: " + to_string(mark);
+    return output;
+
 }
 
 void Course::printLetterGrade() const {

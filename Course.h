@@ -44,7 +44,7 @@ class Course
         Grade* removeGrade(int index);
         void printGrades() const;
         void printCourse() const;
-        void print() const;
+        const string print() const;
         void printLetterGrade() const;
         void calculateMark();
 

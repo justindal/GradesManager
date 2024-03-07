@@ -13,6 +13,7 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     QWidget(parent), ui(new Ui::GradeManagerGUI) {
     ui->setupUi(this);
     connect(ui->addCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddCourseDialog);
+    connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateCourseInfo);
     populateCourseList();
 }
 
@@ -38,5 +39,19 @@ void GradeManagerGUI::populateCourseList() {
     auto courses = gradeManager.getCourses();
     for (const auto& course : courses) {
         ui->courseListWidget->addItem(QString::fromStdString(course->getCourseName()));
+    }
+}
+
+void GradeManagerGUI::updateCourseInfo() {
+    QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
+    if (selectedItem) {
+        std::string selectedCourseName = selectedItem->text().toStdString();
+        for (const auto& course : gradeManager.getCourses()) {
+            if (course->getCourseName() == selectedCourseName) {
+                // Assuming courseInfoWidget is a QTextEdit or similar widget
+                ui->courseInfoWidget->setText(QString::fromStdString(course->print()));
+                break;
+            }
+        }
     }
 }

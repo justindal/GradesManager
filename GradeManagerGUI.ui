@@ -91,16 +91,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QListWidget" name="courseInfo">
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item>
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -112,6 +102,19 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="courseInfoWidget">
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item>
      <spacer name="horizontalSpacer">
@@ -137,12 +140,15 @@
      </widget>
     </item>
     <item>
-     <widget class="QListWidget" name="gradeInfo">
+     <widget class="QTextEdit" name="gradeInfoWidget">
       <property name="maximumSize">
        <size>
-        <width>200</width>
+        <width>250</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

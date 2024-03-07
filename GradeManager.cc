@@ -10,9 +10,6 @@ GradeManager::GradeManager() {
 }
 
 GradeManager::~GradeManager() {
-    for (auto const course : courses) {
-        delete course;
-    }
     closeDatabase();
 }
 

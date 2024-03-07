@@ -25,6 +25,7 @@ private slots:
     void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription,
         const QString &courseCredits);
     void populateCourseList();
+    void updateCourseInfo();
 
 private:
     Ui::GradeManagerGUI *ui;
