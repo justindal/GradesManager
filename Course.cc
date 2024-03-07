@@ -4,11 +4,23 @@
 
 #include "Course.h"
 
-Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term) {
+Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term, float creditWorth) {
     this->courseName = courseName;
     this->courseCode = courseCode;
     this->prof = prof;
     this->term = term;
+    this->creditWorth = creditWorth;
+}
+
+Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term,
+    const int numGrades, const float mark, const float creditWorth) {
+    this->courseName = courseName;
+    this->courseCode = courseCode;
+    this->prof = prof;
+    this->term = term;
+    this->numGrades = numGrades;
+    this->mark = mark;
+    this->creditWorth = creditWorth;
 }
 
 Course::Course() {
@@ -77,6 +89,14 @@ void Course::setMark(float mark) {
 
 void Course::setCourseCode(const string& courseCode) {
     this->courseCode = courseCode;
+}
+
+[[nodiscard]] float Course::getCreditWorth() const {
+    return creditWorth;
+}
+
+void Course::setCreditWorth(float creditWorth) {
+    this->creditWorth = creditWorth;
 }
 
 [[nodiscard]] float Course::getAverage() const {

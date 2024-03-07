@@ -11,11 +11,14 @@ AddCourseDialog::AddCourseDialog(QWidget *parent) : QDialog(parent) {
     courseCodeEdit = new QLineEdit(this);
     layout->addRow("Course Code:", courseCodeEdit);
 
-    courseDescriptionEdit = new QLineEdit(this);
-    layout->addRow("Course Description:", courseDescriptionEdit);
+    courseInstructorEdit = new QLineEdit(this);
+    layout->addRow("Instructor:", courseInstructorEdit);
+
+    courseTermEdit = new QLineEdit(this);
+    layout->addRow("Term:", courseTermEdit);
 
     courseCreditsEdit = new QLineEdit(this);
-    layout->addRow("Course Credits:", courseCreditsEdit);
+    layout->addRow("Credit Worth:", courseCreditsEdit);
 
     auto submitButton = new QPushButton("Submit", this);
     layout->addWidget(submitButton);
@@ -27,6 +30,7 @@ void AddCourseDialog::submitForm() {
     // Handle form submission here
     // You can access the text entered in the QLineEdit with courseNameEdit->text()
     emit courseDataSubmitted(courseNameEdit->text(), courseCodeEdit->text(),
-        courseDescriptionEdit->text(), courseCreditsEdit->text());
+        courseInstructorEdit->text(), courseCreditsEdit->text(),
+        courseTermEdit->text());
     accept();  // Close the dialog
 }

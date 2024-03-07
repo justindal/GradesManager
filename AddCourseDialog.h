@@ -15,15 +15,16 @@ public:
 private:
     QLineEdit *courseNameEdit;
     QLineEdit *courseCodeEdit;
-    QLineEdit *courseDescriptionEdit;
+    QLineEdit *courseInstructorEdit;
     QLineEdit *courseCreditsEdit;
+    QLineEdit *courseTermEdit;
 
 private slots:
         void submitForm();
 
 signals:
-    void courseDataSubmitted(const QString &courseName, const QString &courseCode, const QString &courseDescription,
-        const QString &courseCredits);
+    void courseDataSubmitted(const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+        const QString &courseCredits, const QString &courseTerm);
 };
 
 #endif // ADDCOURSEDIALOG_H

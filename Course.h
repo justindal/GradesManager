@@ -12,7 +12,10 @@ class Course
 {
     public:
         // Constructors and Destructors
-        Course(const string& courseName, const string& courseCode, const string& prof, const string& term);
+        Course(const string& courseName, const string& courseCode, const string& prof, const string& term,
+            float creditWorth);
+        Course(const string& courseName, const string& courseCode, const string& prof, const string& term,
+           const int numGrades, const float mark, const float creditWorth);
         Course();
         ~Course();
 
@@ -33,6 +36,8 @@ class Course
         [[nodiscard]] string getCourseCode() const;
         void setCourseCode(const string& courseCode);
         [[nodiscard]] float getAverage() const;
+        [[nodiscard]] float getCreditWorth() const;
+        void setCreditWorth(float creditWorth);
 
         // Other Methods
         void addGrade(Grade *grade);
@@ -54,6 +59,7 @@ class Course
         string prof;
         string term;
         float mark{};
+        float creditWorth{};
 };
 
 #endif

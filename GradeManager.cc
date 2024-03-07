@@ -28,14 +28,22 @@ bool GradeManager::openDatabase() {
 
 bool GradeManager::initializeDatabase() const {
     const QString createCourseTable = "CREATE TABLE IF NOT EXISTS Course ("
+                                  "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                  "COURSENAME TEXT, "
+                                  "COURSECODE TEXT, "
+                                  "NUMGRADES INTEGER, "
+                                  "PROF TEXT, "
+                                  "TERM TEXT, "
+                                  "CREDITWORTH REAL, "
+                                  "MARK REAL);";
+
+    const QString createGradeTable = "CREATE TABLE IF NOT EXISTS Grade ("
                                       "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                      "COURSENAME TEXT, "
-                                      "COURSECODE TEXT, "
-                                      "NUMGRADES INTEGER, "
-                                      "PROF TEXT, "
-                                      "TERM TEXT, "
-                                      "MARK TEXT);";
-    const QString createGradeTable = "CREATE TABLE IF NOT EXISTS Grade (ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSEID INTEGER, NAME TEXT, WEIGHT REAL, MARK REAL);";
+                                      "COURSEID INTEGER, "
+                                      "NAME TEXT, "
+                                      "WEIGHT REAL, "
+                                      "MARK REAL, "
+                                      "FOREIGN KEY(COURSEID) REFERENCES Course(ID));";
     QSqlQuery query(db);
 
     if (!query.exec(createCourseTable)) {
@@ -79,8 +87,17 @@ void GradeManager::setCourses(const std::vector<Course*>& courses) {
 
 void GradeManager::addCourse(Course* course) {
     courses.push_back(course);
-    const std::string sql = "INSERT INTO Course (COURSENAME, COURSECODE, NUMGRADES, PROF, TERM, MARK) VALUES ('" + course->getCourseName() + "', '" + course->getCourseCode() + "', " + std::to_string(course->getNumGrades()) + ", '" + course->getProf() + "', '" + course->getTerm() + "', '" + std::to_string(course->getMark()) + "');";
-    executeSQL(sql);
+    const std::string sql = "INSERT INTO Course (COURSENAME, COURSECODE, NUMGRADES, PROF, TERM, CREDITWORTH, MARK) VALUES ('"
+                            + course->getCourseName() + "', '"
+                            + course->getCourseCode() + "', "
+                            + std::to_string(course->getNumGrades()) + ", '"
+                            + course->getProf() + "', '"
+                            + course->getTerm() + "', "
+                            + std::to_string(course->getCreditWorth()) + ", "
+                            + std::to_string(course->getMark()) + ");";
+    if (!executeSQL(sql)) {
+        std::cerr << "Error adding course to database" << std::endl;
+    }
 }
 
 void GradeManager::readCoursesFromDatabase() {
@@ -91,9 +108,16 @@ void GradeManager::readCoursesFromDatabase() {
         return;
     }
     while (query.next()) {
-        auto course = new Course(query.value(1).toString().toStdString(), "", query.value(3).toString().toStdString(), query.value(4).toString().toStdString());
-        course->setNumGrades(query.value(2).toInt());
-        course->setMark(query.value(5).toFloat());
+
+        const std::string courseName = query.value(1).toString().toStdString();
+        const std::string courseCode = query.value(2).toString().toStdString();
+        const int numGrades = query.value(3).toInt();
+        const std::string prof = query.value(4).toString().toStdString();
+        const std::string term = query.value(5).toString().toStdString();
+        const std::string creditWorth = query.value(6).toString().toStdString();
+        const float mark = query.value(7).toFloat();
+        auto *course = new Course(courseName, courseCode, prof, term, numGrades, mark, std::stof(creditWorth));
+
         courses.push_back(course);
     }
 }

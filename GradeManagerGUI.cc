@@ -28,10 +28,7 @@ void GradeManagerGUI::openAddCourseDialog() {
 }
 
 void GradeManagerGUI::handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription, const QString &courseCredits) {
-    // Handle course data here
-    // You can access the course data from the dialog with the parameters
-    // You can use the gradeManager object to add the course to the database
-    Course course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), courseCredits.toStdString());
+    Course course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), "Fall", courseCredits.toFloat());
     gradeManager.addCourse(&course);
     populateCourseList();
 }
