@@ -21,11 +21,11 @@ public:
     ~GradeManagerGUI() override;
 
 private slots:
-    void openAddCourseDialog();
+    void openAddCourseDialog() const;
     void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription,
         const QString &courseCredits);
-    void populateCourseList();
-    void updateCourseInfo();
+    void populateCourseList() const;
+    void updateCourseInfo() const;
 
 private:
     Ui::GradeManagerGUI *ui;

@@ -21,7 +21,8 @@ GradeManagerGUI::~GradeManagerGUI() {
     delete ui;
 }
 
-void GradeManagerGUI::openAddCourseDialog() {
+void GradeManagerGUI::openAddCourseDialog() const
+{
     auto *addCourseDialog = new AddCourseDialog;
     connect(addCourseDialog, &AddCourseDialog::courseDataSubmitted, this, &GradeManagerGUI::handleCourseData);
     addCourseDialog->setModal(true);
@@ -29,12 +30,12 @@ void GradeManagerGUI::openAddCourseDialog() {
 }
 
 void GradeManagerGUI::handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription, const QString &courseCredits) {
-    Course course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), "Fall", courseCredits.toFloat());
-    gradeManager.addCourse(&course);
+    Course* course = new Course(courseName.toStdString(), courseCode.toStdString(), courseDescription.toStdString(), "Fall", courseCredits.toFloat());
+    gradeManager.addCourse(course);
     populateCourseList();
 }
 
-void GradeManagerGUI::populateCourseList() {
+void GradeManagerGUI::populateCourseList() const {
     ui->courseListWidget->clear();
     auto courses = gradeManager.getCourses();
     for (const auto& course : courses) {
@@ -42,7 +43,7 @@ void GradeManagerGUI::populateCourseList() {
     }
 }
 
-void GradeManagerGUI::updateCourseInfo() {
+void GradeManagerGUI::updateCourseInfo() const {
     QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
     if (selectedItem) {
         std::string selectedCourseName = selectedItem->text().toStdString();
