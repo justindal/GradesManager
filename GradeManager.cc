@@ -118,3 +118,18 @@ void GradeManager::readCoursesFromDatabase() {
         courses.push_back(course);
     }
 }
+
+Course* GradeManager::removeCourse(const std::string& courseName) {
+    for (auto it = courses.begin(); it != courses.end(); ++it) {
+        if ((*it)->getCourseName() == courseName) {
+            Course* course = *it;
+            courses.erase(it);
+            const std::string sql = "DELETE FROM Course WHERE COURSENAME = '" + courseName + "';";
+            if (!executeSQL(sql)) {
+                std::cerr << "Error removing course from database" << std::endl;
+            }
+            return course;
+        }
+    }
+    return nullptr;
+}

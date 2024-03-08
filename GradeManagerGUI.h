@@ -26,6 +26,7 @@ private slots:
         const QString &courseCredits);
     void populateCourseList() const;
     void updateCourseInfo() const;
+    void removeSelectedCourse();
 
 private:
     Ui::GradeManagerGUI *ui;

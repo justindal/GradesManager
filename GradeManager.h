@@ -30,7 +30,7 @@ public:
 
     // Other Methods
     void addCourse(Course* course);
-    Course* removeCourse(int index);
+    Course* removeCourse(const string& courseName);
     void printCourses() const;
     void addGradeToCourse(int index, Grade* grade);
     void removeGradeFromCourse(int courseIndex, int gradeIndex);
