@@ -26,6 +26,7 @@ AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(pare
     layout->addWidget(submitButton);
 
     if (course) {
+        originalCourseName = QString::fromStdString(course->getCourseName());
         courseNameEdit->setText(QString::fromStdString(course->getCourseName()));
         courseCodeEdit->setText(QString::fromStdString(course->getCourseCode()));
         courseInstructorEdit->setText(QString::fromStdString(course->getProf()));
@@ -40,8 +41,7 @@ AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(pare
 void AddCourseDialog::submitForm() {
     // Handle form submission here
     // You can access the text entered in the QLineEdit with courseNameEdit->text()
-    emit courseDataSubmitted(courseNameEdit->text(), courseCodeEdit->text(),
-        courseInstructorEdit->text(), courseCreditsEdit->text(),
-        courseTermEdit->text());
+    emit courseDataSubmitted(originalCourseName, courseNameEdit->text(), courseCodeEdit->text(), courseInstructorEdit->text(),
+        courseCreditsEdit->text(), courseTermEdit->text());
     accept();  // Close the dialog
 }

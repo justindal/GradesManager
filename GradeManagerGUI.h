@@ -22,7 +22,7 @@ public:
 
 private slots:
     void openAddCourseDialog() const;
-    void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+    void handleCourseData(const QString &originalCourseName, const QString &courseName, const QString &courseCode, const QString &courseInstructor,
         const QString &courseCredits, const QString &courseTerm);
     void populateCourseList() const;
     void updateCourseInfo() const;

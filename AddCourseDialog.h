@@ -20,12 +20,13 @@ private:
     QLineEdit *courseInstructorEdit;
     QLineEdit *courseCreditsEdit;
     QLineEdit *courseTermEdit;
+    QString originalCourseName;
 
 private slots:
         void submitForm();
 
 signals:
-    void courseDataSubmitted(const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+    void courseDataSubmitted(const QString &originalCourseName, const QString &courseName, const QString &courseCode, const QString &courseInstructor,
         const QString &courseCredits, const QString &courseTerm);
 };
 

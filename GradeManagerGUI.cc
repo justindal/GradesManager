@@ -30,17 +30,19 @@ void GradeManagerGUI::openAddCourseDialog() const
     addCourseDialog->exec();
 }
 
-void GradeManagerGUI::handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+void GradeManagerGUI::handleCourseData(const QString &originalCourseName, const QString &courseName, const QString &courseCode, const QString &courseInstructor,
         const QString &courseCredits, const QString &courseTerm) {
     for (auto& course : gradeManager.getCourses()) {
-        if (course->getCourseName() == courseName.toStdString()) {
+        if (course->getCourseName() == originalCourseName.toStdString()) {
             // Update existing course
+            course->setCourseName(courseName.toStdString());
             course->setCourseCode(courseCode.toStdString());
             course->setProf(courseInstructor.toStdString());
             course->setTerm(courseTerm.toStdString());
             course->setCreditWorth(courseCredits.toFloat());
             gradeManager.updateCourseInDatabase(course);
             populateCourseList();
+            updateCourseInfo();
             return;
         }
     }
@@ -84,11 +86,14 @@ void GradeManagerGUI::removeSelectedCourse()  {
 void GradeManagerGUI::editSelectedCourse() {
     QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
     if (selectedItem) {
-        std::string selectedCourseName = selectedItem->text().toStdString();
+        string selectedCourseName = selectedItem->text().toStdString();
         for (const auto& course : gradeManager.getCourses()) {
             if (course->getCourseName() == selectedCourseName) {
                 auto *addCourseDialog = new AddCourseDialog(course);
-                connect(addCourseDialog, &AddCourseDialog::courseDataSubmitted, this, &GradeManagerGUI::handleCourseData);
+                connect(addCourseDialog, &AddCourseDialog::courseDataSubmitted, this, [this](const QString &originalCourseName, const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+                    const QString &courseCredits, const QString &courseTerm) {
+                    handleCourseData(originalCourseName, courseName, courseCode, courseInstructor, courseCredits, courseTerm);
+                });
                 addCourseDialog->setModal(true);
                 addCourseDialog->exec();
                 break;
