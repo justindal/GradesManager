@@ -133,3 +133,17 @@ Course* GradeManager::removeCourse(const std::string& courseName) {
     }
     return nullptr;
 }
+
+void GradeManager::updateCourseInDatabase(Course* course) const {
+    std::string sql = "UPDATE Course SET "
+                      "COURSECODE = '" + course->getCourseCode() + "', "
+                      "NUMGRADES = " + std::to_string(course->getNumGrades()) + ", "
+                      "PROF = '" + course->getProf() + "', "
+                      "TERM = '" + course->getTerm() + "', "
+                      "CREDITWORTH = " + std::to_string(course->getCreditWorth()) + ", "
+                      "MARK = " + std::to_string(course->getMark()) +
+                      " WHERE COURSENAME = '" + course->getCourseName() + "';";
+    if (!executeSQL(sql)) {
+        std::cerr << "Error updating course in database" << std::endl;
+    }
+}

@@ -1,6 +1,8 @@
 #include "AddCourseDialog.h"
+#include "ui_GradeManagerGUI.h"
 
-AddCourseDialog::AddCourseDialog(QWidget *parent) : QDialog(parent) {
+
+AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(parent) {
     setWindowTitle("Add Course");
 
     auto layout = new QFormLayout(this);
@@ -22,6 +24,15 @@ AddCourseDialog::AddCourseDialog(QWidget *parent) : QDialog(parent) {
 
     auto submitButton = new QPushButton("Submit", this);
     layout->addWidget(submitButton);
+
+    if (course) {
+        courseNameEdit->setText(QString::fromStdString(course->getCourseName()));
+        courseCodeEdit->setText(QString::fromStdString(course->getCourseCode()));
+        courseInstructorEdit->setText(QString::fromStdString(course->getProf()));
+        courseTermEdit->setText(QString::fromStdString(course->getTerm()));
+        courseCreditsEdit->setText(QString::number(course->getCreditWorth()));
+        setWindowTitle("Edit Course");
+    }
 
     connect(submitButton, &QPushButton::clicked, this, &AddCourseDialog::submitForm);
 }

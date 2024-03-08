@@ -22,11 +22,12 @@ public:
 
 private slots:
     void openAddCourseDialog() const;
-    void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseDescription,
-        const QString &courseCredits);
+    void handleCourseData(const QString &courseName, const QString &courseCode, const QString &courseInstructor,
+        const QString &courseCredits, const QString &courseTerm);
     void populateCourseList() const;
     void updateCourseInfo() const;
     void removeSelectedCourse();
+    void editSelectedCourse();
 
 private:
     Ui::GradeManagerGUI *ui;

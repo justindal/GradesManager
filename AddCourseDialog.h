@@ -6,11 +6,13 @@
 #include <QPushButton>
 #include <QFormLayout>
 
+#include "Course.h"
+
 class AddCourseDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit AddCourseDialog(QWidget *parent = nullptr);
+    explicit AddCourseDialog(Course* course = nullptr, QWidget *parent = nullptr);
 
 private:
     QLineEdit *courseNameEdit;
