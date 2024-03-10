@@ -134,16 +134,30 @@ Course* GradeManager::removeCourse(const std::string& courseName) {
     return nullptr;
 }
 
-void GradeManager::updateCourseInDatabase(Course* course) const {
-    std::string sql = "UPDATE Course SET "
-                      "COURSECODE = '" + course->getCourseCode() + "', "
-                      "NUMGRADES = " + std::to_string(course->getNumGrades()) + ", "
-                      "PROF = '" + course->getProf() + "', "
-                      "TERM = '" + course->getTerm() + "', "
-                      "CREDITWORTH = " + std::to_string(course->getCreditWorth()) + ", "
-                      "MARK = " + std::to_string(course->getMark()) +
-                      " WHERE COURSENAME = '" + course->getCourseName() + "';";
-    if (!executeSQL(sql)) {
-        std::cerr << "Error updating course in database" << std::endl;
+void GradeManager::updateCourseInDatabase(const std::string& originalCourseName, Course* course) const {
+    // First, get the courseID for the given originalCourseName
+    std::string selectSql = "SELECT ID FROM Course WHERE COURSENAME = '" + originalCourseName + "';";
+    QSqlQuery query(db);
+    if (!query.exec(QString::fromStdString(selectSql))) {
+        std::cerr << "SQL error: " << query.lastError().text().toStdString() << std::endl;
+        return;
+    }
+    if (query.next()) {
+        int courseId = query.value(0).toInt();
+
+        // Then, update the course details using the courseID
+        std::string updateSql = "UPDATE Course SET "
+                                "COURSENAME = '" + course->getCourseName() + "', "
+                                "COURSECODE = '" + course->getCourseCode() + "', "
+                                "PROF = '" + course->getProf() + "', "
+                                "TERM = '" + course->getTerm() + "', "
+                                "CREDITWORTH = " + std::to_string(course->getCreditWorth()) + ", "
+                                "MARK = " + std::to_string(course->getMark()) +
+                                " WHERE ID = " + std::to_string(courseId) + ";";
+        if (!executeSQL(updateSql)) {
+            std::cerr << "Error updating course in database" << std::endl;
+        }
+    } else {
+        std::cerr << "Course not found in database" << std::endl;
     }
 }

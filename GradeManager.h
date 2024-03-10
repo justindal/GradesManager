@@ -35,7 +35,7 @@ public:
     void addGradeToCourse(int index, Grade* grade);
     void removeGradeFromCourse(int courseIndex, int gradeIndex);
     void readCoursesFromDatabase();
-    void updateCourseInDatabase(Course* course) const;
+    void updateCourseInDatabase(const string& courseName, Course* course) const;
 
 private:
     std::vector<Course*> courses;

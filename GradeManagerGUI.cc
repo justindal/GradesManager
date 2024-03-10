@@ -40,9 +40,9 @@ void GradeManagerGUI::handleCourseData(const QString &originalCourseName, const 
             course->setProf(courseInstructor.toStdString());
             course->setTerm(courseTerm.toStdString());
             course->setCreditWorth(courseCredits.toFloat());
-            gradeManager.updateCourseInDatabase(course);
+            gradeManager.updateCourseInDatabase(originalCourseName.toStdString(), course);
             populateCourseList();
-            updateCourseInfo();
+            ui->courseInfoWidget->clear();
             return;
         }
     }
