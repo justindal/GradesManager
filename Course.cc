@@ -4,7 +4,7 @@
 
 #include "Course.h"
 
-Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term, float creditWorth) {
+Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term, const float creditWorth) {
     this->courseName = courseName;
     this->courseCode = courseCode;
     this->prof = prof;
@@ -43,7 +43,7 @@ void Course::setCourseName(const string& courseName) {
     return numGrades;
 }
 
-void Course::setNumGrades(int numGrades) {
+void Course::setNumGrades(const int numGrades) {
     this->numGrades = numGrades;
 }
 
@@ -75,11 +75,11 @@ void Course::setTerm(const string& term) {
     return mark;
 }
 
-void Course::setMark(float mark) {
+void Course::setMark(const float mark) {
     this->mark = mark;
 }
 
-[[nodiscard]] Grade *Course::getGradeAt(int index) const {
+[[nodiscard]] Grade *Course::getGradeAt(const int index) const {
     return grades.at(index);
 }
 
@@ -95,16 +95,13 @@ void Course::setCourseCode(const string& courseCode) {
     return creditWorth;
 }
 
-void Course::setCreditWorth(float creditWorth) {
+void Course::setCreditWorth(const float creditWorth) {
     this->creditWorth = creditWorth;
 }
 
 [[nodiscard]] float Course::getAverage() const {
-    float total = 0;
-    for (auto & grade : grades) {
-        total += grade->getPercentageMark();
-    }
-    return total / numGrades;
+    // todo
+    return 0;
 }
 
 // Other Methods
@@ -113,7 +110,7 @@ void Course::addGrade(Grade *grade) {
     numGrades++;
 }
 
-Grade* Course::removeGrade(int index) {
+Grade* Course::removeGrade(const int index) {
     Grade* grade = grades.at(index);
     grades.erase(grades.begin() + index);
     numGrades--;
@@ -136,7 +133,7 @@ void Course::printCourse() const {
     printGrades();
 }
 
-const string Course::print() const {
+string Course::print() const {
 
     string output = "Course Name: " + courseName + "\n\n" +
                     "Course Code: " + courseCode + "\n\n" +
@@ -160,13 +157,7 @@ void Course::printLetterGrade() const {
 }
 
 void Course::calculateMark() {
-    float totalWeight = 0;
-    float totalMark = 0;
-    for (auto & grade : grades) {
-        totalWeight += grade->getWeight();
-        totalMark += grade->getPercentageMark() * grade->getWeight();
-    }
-    mark = totalMark / totalWeight;
+    // todo
 }
 
 // Overloaded Operators

@@ -7,13 +7,12 @@
 
 #include <QWidget>
 #include "GradeManager.h"
-#include "AddCourseDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GradeManagerGUI; }
 QT_END_NAMESPACE
 
-class GradeManagerGUI : public QWidget {
+class GradeManagerGUI final: public QWidget {
 Q_OBJECT
 
 public:
@@ -28,6 +27,13 @@ private slots:
     void updateCourseInfo() const;
     void removeSelectedCourse();
     void editSelectedCourse();
+
+    void openAddGradeDialog() const;
+    void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight);
+    void populateGradeList() const;
+    // void updateGradeInfo() const;
+    // void removeSelectedGrade();
+    // void editSelectedGrade();
 
 private:
     Ui::GradeManagerGUI *ui;

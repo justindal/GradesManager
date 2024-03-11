@@ -39,7 +39,7 @@ bool GradeManager::initializeDatabase() const {
                                       "COURSEID INTEGER, "
                                       "NAME TEXT, "
                                       "WEIGHT REAL, "
-                                      "MARK REAL, "
+                                      "MARK TEXT, "
                                       "FOREIGN KEY(COURSEID) REFERENCES Course(ID));";
     QSqlQuery query(db);
 
@@ -134,16 +134,16 @@ Course* GradeManager::removeCourse(const std::string& courseName) {
     return nullptr;
 }
 
-void GradeManager::updateCourseInDatabase(const std::string& originalCourseName, Course* course) const {
+void GradeManager::updateCourseInDatabase(const string& originalCourseName, Course* course) const {
     // First, get the courseID for the given originalCourseName
-    std::string selectSql = "SELECT ID FROM Course WHERE COURSENAME = '" + originalCourseName + "';";
+    const string selectSql = "SELECT ID FROM Course WHERE COURSENAME = '" + originalCourseName + "';";
     QSqlQuery query(db);
     if (!query.exec(QString::fromStdString(selectSql))) {
         std::cerr << "SQL error: " << query.lastError().text().toStdString() << std::endl;
         return;
     }
     if (query.next()) {
-        int courseId = query.value(0).toInt();
+        const int courseId = query.value(0).toInt();
 
         // Then, update the course details using the courseID
         std::string updateSql = "UPDATE Course SET "
@@ -159,5 +159,28 @@ void GradeManager::updateCourseInDatabase(const std::string& originalCourseName,
         }
     } else {
         std::cerr << "Course not found in database" << std::endl;
+    }
+}
+
+void GradeManager::addGradeToDatabase(Course* course, Grade* grade) {
+    const std::string sql = "INSERT INTO Grade (COURSEID, NAME, TYPE, MARK, WEIGHT) VALUES ("
+                            + std::to_string(getCourseId(course->getCourseName())) + ", '"
+                            + grade->getName() + "', '"
+                            + grade->getType() + "', "
+                            + grade->getMark() + ", "
+                            + std::to_string(grade->getWeight()) + ");";
+    if (!executeSQL(sql)) {
+        std::cerr << "Error adding grade to database" << std::endl;
+    }
+}
+
+int GradeManager::getCourseId(const string& courseName) const {
+    const std::string sql = "SELECT ID FROM Course WHERE COURSENAME = '" + courseName + "';";
+    QSqlQuery query(db);
+    if (query.exec(QString::fromStdString(sql)) && query.next()) {
+        return query.value(0).toInt();
+    } else {
+        std::cerr << "Error getting course ID from database" << std::endl;
+        return -1;
     }
 }

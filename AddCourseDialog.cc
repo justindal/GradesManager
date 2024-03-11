@@ -1,11 +1,13 @@
 #include "AddCourseDialog.h"
 #include "ui_GradeManagerGUI.h"
+#include <QPushButton>
+#include <QFormLayout>
 
 
 AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(parent) {
     setWindowTitle("Add Course");
 
-    auto layout = new QFormLayout(this);
+    const auto layout = new QFormLayout(this);
 
     courseNameEdit = new QLineEdit(this);
     layout->addRow("Course Name:", courseNameEdit);
@@ -22,7 +24,7 @@ AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(pare
     courseCreditsEdit = new QLineEdit(this);
     layout->addRow("Credit Worth:", courseCreditsEdit);
 
-    auto submitButton = new QPushButton("Submit", this);
+    const auto submitButton = new QPushButton("Submit", this);
     layout->addWidget(submitButton);
 
     if (course) {

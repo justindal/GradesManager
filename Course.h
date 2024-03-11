@@ -23,7 +23,7 @@ class Course
         [[nodiscard]] string getCourseName() const;
         void setCourseName(const string& courseName);
         [[nodiscard]] int getNumGrades() const;
-        void setNumGrades(int numGrades);
+        void setNumGrades(const int numGrades);
         [[nodiscard]] vector<Grade *> getGrades() const;
         void setGrades(vector<Grade *>& grades);
         [[nodiscard]] string getProf() const;
@@ -31,20 +31,20 @@ class Course
         [[nodiscard]] string getTerm() const;
         void setTerm(const string& term);
         [[nodiscard]] float getMark() const;
-        void setMark(float mark);
-        [[nodiscard]] Grade *getGradeAt(int index) const;
+        void setMark(const float mark);
+        [[nodiscard]] Grade *getGradeAt(const int index) const;
         [[nodiscard]] string getCourseCode() const;
         void setCourseCode(const string& courseCode);
         [[nodiscard]] float getAverage() const;
         [[nodiscard]] float getCreditWorth() const;
-        void setCreditWorth(float creditWorth);
+        void setCreditWorth(const float creditWorth);
 
         // Other Methods
         void addGrade(Grade *grade);
-        Grade* removeGrade(int index);
+        Grade* removeGrade(const int index);
         void printGrades() const;
         void printCourse() const;
-        const string print() const;
+        string print() const;
         void printLetterGrade() const;
         void calculateMark();
 

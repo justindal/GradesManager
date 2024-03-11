@@ -24,7 +24,9 @@ add_executable(GradesManager main.cpp
         GradeManagerGUI.h
         GradeManagerGUI.ui
         AddCourseDialog.cc
-        AddCourseDialog.h)
+        AddCourseDialog.h
+        AddGradeDialog.cc
+        AddGradeDialog.h)
 target_link_libraries(GradesManager
         Qt::Core
         Qt::Gui

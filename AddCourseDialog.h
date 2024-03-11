@@ -3,12 +3,11 @@
 
 #include <QDialog>
 #include <QLineEdit>
-#include <QPushButton>
-#include <QFormLayout>
+
 
 #include "Course.h"
 
-class AddCourseDialog : public QDialog {
+class AddCourseDialog final: public QDialog {
     Q_OBJECT
 
 public:

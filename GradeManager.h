@@ -37,6 +37,10 @@ public:
     void readCoursesFromDatabase();
     void updateCourseInDatabase(const string& courseName, Course* course) const;
 
+    void addGradeToDatabase(Course* course, Grade* grade);
+
+    int getCourseId(const string& courseName) const;
+
 private:
     std::vector<Course*> courses;
     QSqlDatabase db;

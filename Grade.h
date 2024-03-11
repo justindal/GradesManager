@@ -24,12 +24,8 @@ public:
     void setName(const string& name);
     [[nodiscard]] string getType() const;
     void setType(const string& type);
-    [[nodiscard]] string getLetterGrade() const;
-    void setLetterGrade(const string& letterGrade);
     [[nodiscard]] float getWeight() const;
     void setWeight(float weight);
-    [[nodiscard]] float getPercentageMark() const;
-    void setPercentageMark(float percentageMark);
 
     // Other Methods
     void printGrade() const;
@@ -43,9 +39,7 @@ private:
     string mark;
     string name;
     string type;
-    string letterGrade;
     float weight;
-    float percentageMark{};
 };
 
 
