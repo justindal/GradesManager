@@ -57,11 +57,13 @@ void Grade::printGrade() const {
     cout << "Weight: " << weight << endl;
 }
 
-void Grade::print() const {
-    cout << "Name: " << name << endl;
-    cout << "Type: " << type << endl;
-    cout << "Mark: " << mark << endl;
-    cout << "Weight: " << weight << endl;
+string Grade::print() const {
+    string output;
+    output += "Name: " + name + "\n";
+    output += "Type: " + type + "\n";
+    output += "Mark: " + mark + "\n";
+    output += "Weight: " + to_string(weight) + "\n";
+    return output;
 }
 
 void Grade::calculateLetterGrade() {

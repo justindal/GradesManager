@@ -29,7 +29,7 @@ public:
 
     // Other Methods
     void printGrade() const;
-    void print() const;
+    string print() const;
     void calculateLetterGrade();
 
     // Overloaded Operators

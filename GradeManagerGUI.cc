@@ -15,14 +15,15 @@
 GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     QWidget(parent), ui(new Ui::GradeManagerGUI) {
     ui->setupUi(this);
+    vector<Course*> courses = gradeManager.getCourses();
+    addGradeDialog = new AddGradeDialog(courses);
     connect(ui->addCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddCourseDialog);
     connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateCourseInfo);
     connect(ui->removeCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::removeSelectedCourse);
     connect(ui->editCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::editSelectedCourse);
     populateCourseList();
-    populateGradeList();
-
     connect(ui->addGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddGradeDialog);
+    connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::populateGradeList);
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
@@ -118,41 +119,42 @@ void GradeManagerGUI::openAddGradeDialog() const {
         QMessageBox::information(nullptr, "No Courses", "You must add a course before adding a grade.");
         return;
     }
-    AddGradeDialog* addGradeDialog = new AddGradeDialog(courses);
     connect(addGradeDialog, &AddGradeDialog::gradeDataSubmitted, this, &GradeManagerGUI::handleGradeData);
     addGradeDialog->setModal(true);
     addGradeDialog->exec();
 }
 
 void GradeManagerGUI::handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight) {
-    QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
-    if (selectedItem) {
-        std::string selectedCourseName = selectedItem->text().toStdString();
-        for (auto& course : gradeManager.getCourses()) {
-            if (course->getCourseName() == selectedCourseName) {
-                // Create a new grade
-                auto* grade = new Grade(gradeMark.toStdString(), gradeName.toStdString(), gradeType.toStdString(), gradeWeight.toFloat());
-                // Add the new grade to the course
-                course->addGrade(grade);
-                // Add the new grade to the database
-                gradeManager.addGradeToDatabase(course, grade);
-                // Update the grade list widget
-                populateGradeList();
-                return;
-            }
+    std::string selectedCourseCode = addGradeDialog->getSelectedCourseCode().toStdString();
+    for (auto& course : gradeManager.getCourses()) {
+        if (course->getCourseCode() == selectedCourseCode) {
+            // Create a new grade
+            auto* grade = new Grade(gradeMark.toStdString(), gradeName.toStdString(), gradeType.toStdString(), gradeWeight.toFloat());
+            // Add the new grade to the course
+            course->addGrade(grade);
+            // Add the new grade to the database
+            gradeManager.addGradeToDatabase(course, grade);
+            // Update the grade list widget
+            populateGradeList();
+            return;
         }
     }
 }
 
 void GradeManagerGUI::populateGradeList() const {
     ui->gradeListWidget->clear();
-    auto courses = gradeManager.getCourses();
-    for (const auto& course : courses) {
-        if (course->getCourseName() == ui->courseListWidget->currentItem()->text().toStdString()) {
-            for (const auto& grade : course->getGrades()) {
-                ui->gradeListWidget->addItem(QString::fromStdString(grade->getName()));
+    QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
+    if (selectedItem) {
+        std::string selectedCourseName = selectedItem->text().toStdString();
+        for (const auto& course : gradeManager.getCourses()) {
+            if (course->getCourseName() == selectedCourseName) {
+                for (const auto& grade : course->getGrades()) {
+                    ui->gradeListWidget->addItem(QString::fromStdString(grade->getName()));
+                }
+                break;
             }
         }
     }
+
 }
 

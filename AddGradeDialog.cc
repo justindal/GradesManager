@@ -49,3 +49,7 @@ void AddGradeDialog::submitForm() {
     emit gradeDataSubmitted(originalGradeName, gradeNameEdit->text(), gradeTypeEdit->text(), gradeMarkEdit->text(), gradeWeightEdit->text());
     accept();
 }
+
+QString AddGradeDialog::getSelectedCourseCode() const {
+    return courseSelection->currentText();
+}

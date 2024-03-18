@@ -6,6 +6,9 @@
 #define GRADEMANAGERGUI_H
 
 #include <QWidget>
+
+#include "AddCourseDialog.h"
+#include "AddGradeDialog.h"
 #include "GradeManager.h"
 
 QT_BEGIN_NAMESPACE
@@ -38,6 +41,8 @@ private slots:
 private:
     Ui::GradeManagerGUI *ui;
     GradeManager gradeManager;
+    // AddCourseDialog *addCourseDialog;
+    AddGradeDialog *addGradeDialog;
 };
 
 

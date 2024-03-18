@@ -38,6 +38,7 @@ bool GradeManager::initializeDatabase() const {
                                       "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                                       "COURSEID INTEGER, "
                                       "NAME TEXT, "
+                                      "TYPE TEXT, "
                                       "WEIGHT REAL, "
                                       "MARK TEXT, "
                                       "FOREIGN KEY(COURSEID) REFERENCES Course(ID));";
@@ -114,8 +115,25 @@ void GradeManager::readCoursesFromDatabase() {
         const std::string creditWorth = query.value(6).toString().toStdString();
         const float mark = query.value(7).toFloat();
         auto *course = new Course(courseName, courseCode, prof, term, numGrades, mark, std::stof(creditWorth));
-
         courses.push_back(course);
+    }
+
+    // Read grades from database
+    for (auto& course : courses) {
+        const std::string sql = "SELECT * FROM Grade WHERE COURSEID = " + std::to_string(getCourseId(course->getCourseName())) + ";";
+        QSqlQuery query(db);
+        if (!query.exec(QString::fromStdString(sql))) {
+            std::cerr << "Error reading grades from database: " << query.lastError().text().toStdString() << std::endl;
+            return;
+        }
+        while (query.next()) {
+            const string gradeName = query.value(2).toString().toStdString();
+            const string gradeType = query.value(3).toString().toStdString();
+            const float gradeWeight = query.value(4).toFloat();
+            const string gradeMark = query.value(5).toString().toStdString();
+            auto *grade = new Grade(gradeMark, gradeName, gradeType, gradeWeight);
+            course->addGrade(grade);
+        }
     }
 }
 
@@ -163,11 +181,11 @@ void GradeManager::updateCourseInDatabase(const string& originalCourseName, Cour
 }
 
 void GradeManager::addGradeToDatabase(Course* course, Grade* grade) {
-    const std::string sql = "INSERT INTO Grade (COURSEID, NAME, TYPE, MARK, WEIGHT) VALUES ("
+    const std::string sql = "INSERT INTO Grade (COURSEID, NAME, MARK, TYPE, WEIGHT) VALUES ("
                             + std::to_string(getCourseId(course->getCourseName())) + ", '"
                             + grade->getName() + "', '"
+                            + grade->getMark() + "', '"
                             + grade->getType() + "', "
-                            + grade->getMark() + ", "
                             + std::to_string(grade->getWeight()) + ");";
     if (!executeSQL(sql)) {
         std::cerr << "Error adding grade to database" << std::endl;
