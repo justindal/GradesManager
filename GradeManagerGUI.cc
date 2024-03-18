@@ -73,7 +73,7 @@ void GradeManagerGUI::populateCourseList() const {
 void GradeManagerGUI::updateCourseInfo() const {
     QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
     if (selectedItem) {
-        std::string selectedCourseName = selectedItem->text().toStdString();
+        string selectedCourseName = selectedItem->text().toStdString();
         for (const auto& course : gradeManager.getCourses()) {
             if (course->getCourseName() == selectedCourseName) {
                 ui->courseInfoWidget->setText(QString::fromStdString(course->print()));
@@ -158,3 +158,20 @@ void GradeManagerGUI::populateGradeList() const {
 
 }
 
+void GradeManagerGUI::updateGradeInfo() const {
+    QListWidgetItem* selectedGrade = ui->gradeListWidget->currentItem();
+    if (selectedGrade) {
+        string selectedGradeName = selectedGrade->text().toStdString();
+        string selectedCourseCode = addGradeDialog->getSelectedCourseCode().toStdString();
+        for (auto &course : gradeManager.getCourses()) {
+            if (course->getCourseCode() == selectedCourseCode) {
+                for (auto& grade : course->getGrades()) {
+                    if (selectedGradeName == grade->getName()) {
+                        ui->gradeInfoWidget->setText(QString::fromStdString(grade->print()));
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}

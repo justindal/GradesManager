@@ -6,6 +6,7 @@
 #define GRADEMANAGERGUI_H
 
 #include <QWidget>
+#include <QString>
 
 #include "AddCourseDialog.h"
 #include "AddGradeDialog.h"
@@ -34,7 +35,7 @@ private slots:
     void openAddGradeDialog() const;
     void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight);
     void populateGradeList() const;
-    // void updateGradeInfo() const;
+    void updateGradeInfo() const;
     // void removeSelectedGrade();
     // void editSelectedGrade();
 
