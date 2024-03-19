@@ -40,6 +40,7 @@ public:
     void addGradeToDatabase(Course* course, Grade* grade);
 
     int getCourseId(const string& courseName) const;
+    vector<Grade*> getGrades(const Course* course) const;
 
 private:
     std::vector<Course*> courses;

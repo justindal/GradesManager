@@ -59,10 +59,10 @@ void Grade::printGrade() const {
 
 string Grade::print() const {
     string output;
-    output += "Name: " + name + "\n";
-    output += "Type: " + type + "\n";
-    output += "Mark: " + mark + "\n";
-    output += "Weight: " + to_string(weight) + "\n";
+    output += "Name: " + name + "\n\n";
+    output += "Type: " + type + "\n\n";
+    output += "Mark: " + mark + "\n\n";
+    output += "Weight: " + to_string(weight * 100) + "%\n";
     return output;
 }
 

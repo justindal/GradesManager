@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QtWidgets/qlistwidget.h>
 
 #include "AddCourseDialog.h"
 #include "AddGradeDialog.h"
@@ -22,6 +23,8 @@ Q_OBJECT
 public:
     explicit GradeManagerGUI(QWidget *parent = nullptr);
     ~GradeManagerGUI() override;
+    QListWidgetItem* getSelectedCourse() const;
+    QListWidgetItem* getSelectedGrade() const;
 
 private slots:
     void openAddCourseDialog() const;
@@ -36,7 +39,7 @@ private slots:
     void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight);
     void populateGradeList() const;
     void updateGradeInfo() const;
-    // void removeSelectedGrade();
+    void removeSelectedGrade();
     // void editSelectedGrade();
 
 private:

@@ -5,7 +5,8 @@ GradeManager::GradeManager() {
     static int count = 0;
     db = QSqlDatabase::addDatabase("QSQLITE", QString("Connection%1").arg(count++));
     openDatabase();
-    initializeDatabase();
+    if (!initializeDatabase())
+        cerr << "error reading from database" << endl;
     readCoursesFromDatabase();
 }
 
@@ -197,8 +198,12 @@ int GradeManager::getCourseId(const string& courseName) const {
     QSqlQuery query(db);
     if (query.exec(QString::fromStdString(sql)) && query.next()) {
         return query.value(0).toInt();
-    } else {
-        std::cerr << "Error getting course ID from database" << std::endl;
-        return -1;
     }
+    std::cerr << "Error getting course ID from database" << std::endl;
+    return -1;
+
+}
+
+vector<Grade*> GradeManager::getGrades(const Course* course) const {
+    return course->getGrades();
 }

@@ -24,10 +24,19 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     populateCourseList();
     connect(ui->addGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddGradeDialog);
     connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::populateGradeList);
+    connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateGradeInfo);
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
     delete ui;
+}
+
+QListWidgetItem* GradeManagerGUI::getSelectedCourse() const {
+    return ui->courseListWidget->currentItem(); // error handling?
+}
+
+QListWidgetItem* GradeManagerGUI::getSelectedGrade() const {
+    return ui->gradeListWidget->currentItem();
 }
 
 // Course Handling
@@ -159,19 +168,22 @@ void GradeManagerGUI::populateGradeList() const {
 }
 
 void GradeManagerGUI::updateGradeInfo() const {
-    QListWidgetItem* selectedGrade = ui->gradeListWidget->currentItem();
-    if (selectedGrade) {
-        string selectedGradeName = selectedGrade->text().toStdString();
-        string selectedCourseCode = addGradeDialog->getSelectedCourseCode().toStdString();
-        for (auto &course : gradeManager.getCourses()) {
-            if (course->getCourseCode() == selectedCourseCode) {
-                for (auto& grade : course->getGrades()) {
-                    if (selectedGradeName == grade->getName()) {
-                        ui->gradeInfoWidget->setText(QString::fromStdString(grade->print()));
-                        return;
-                    }
+    const auto selectedGradeName = getSelectedGrade()->text().toStdString();
+    const auto selectedCourseName = getSelectedCourse()->text().toStdString();
+    for (const auto& course : gradeManager.getCourses()) {
+        if (course->getCourseName() == selectedCourseName) {
+            for (const auto& grade : course->getGrades()) {
+                if (selectedGradeName == grade->getName()) {
+                    ui->gradeInfoWidget->setText(QString::fromStdString(grade->print()));
                 }
             }
         }
+    }
+}
+
+void GradeManagerGUI::removeSelectedGrade() {
+    QListWidgetItem* selectedGrade = getSelectedGrade();
+    if (selectedGrade) {
+
     }
 }
