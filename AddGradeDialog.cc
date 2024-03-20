@@ -10,12 +10,12 @@ AddGradeDialog::AddGradeDialog(vector<Course*>& courses, Grade* grade, QWidget *
 
     const auto layout = new QFormLayout(this);
 
-    // drop down for course selection
-    courseSelection = new QComboBox(this);
-    layout->addRow("Course:", courseSelection);
-
-    for (const auto& course : courses) {
-        courseSelection->addItem(QString::fromStdString(course->getCourseCode()));
+    if (!grade) {
+        courseSelection = new QComboBox(this);
+        layout->addRow("Course:", courseSelection);
+        for (const auto& course : courses) {
+            courseSelection->addItem(QString::fromStdString(course->getCourseCode()));
+        }
     }
 
     gradeNameEdit = new QLineEdit(this);
