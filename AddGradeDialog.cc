@@ -2,6 +2,7 @@
 #include "GradeManagerGUI.h"
 #include "ui_GradeManagerGUI.h"
 #include <QFormLayout>
+#include <QMessageBox>
 
 
 AddGradeDialog::AddGradeDialog(const vector<Course*>& courses, const Grade* grade, QWidget *parent) : QDialog(parent) {
@@ -45,6 +46,17 @@ AddGradeDialog::AddGradeDialog(const vector<Course*>& courses, const Grade* grad
 }
 
 void AddGradeDialog::submitForm() {
+    const QString gradeName = gradeNameEdit->text();
+    const QString gradeType = gradeTypeEdit->text();
+    const QString gradeMark = gradeMarkEdit->text();
+    const QString gradeWeight = gradeWeightEdit->text();
+
+    // Check if any of the fields are empty
+    if (gradeName.isEmpty() || gradeType.isEmpty() || gradeMark.isEmpty() || gradeWeight.isEmpty()) {
+        QMessageBox::information(this, "Empty Fields", "Please fill all the fields before submitting.");
+        return;
+    }
+
     emit gradeDataSubmitted(originalGradeName, gradeNameEdit->text(), gradeTypeEdit->text(), gradeMarkEdit->text(), gradeWeightEdit->text());
     accept();
 }

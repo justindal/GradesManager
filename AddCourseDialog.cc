@@ -1,6 +1,7 @@
 #include "AddCourseDialog.h"
 #include "ui_GradeManagerGUI.h"
 #include <QFormLayout>
+#include <QMessageBox>
 
 
 AddCourseDialog::AddCourseDialog(const Course* course, QWidget *parent) : QDialog(parent) {
@@ -40,8 +41,17 @@ AddCourseDialog::AddCourseDialog(const Course* course, QWidget *parent) : QDialo
 }
 
 void AddCourseDialog::submitForm() {
-    // Handle form submission here
-    // You can access the text entered in the QLineEdit with courseNameEdit->text()
+    const QString courseName = courseNameEdit->text();
+    const QString courseCode = courseCodeEdit->text();
+    const QString courseInstructor = courseInstructorEdit->text();
+    const QString courseTerm = courseTermEdit->text();
+    const QString courseCredits = courseCreditsEdit->text();
+
+    if (courseName.isEmpty() || courseCode.isEmpty() || courseInstructor.isEmpty() || courseTerm.isEmpty() || courseCredits.isEmpty()) {
+        QMessageBox::information(this, "Empty Fields", "Please fill all the fields before submitting.");
+        return;
+    }
+
     emit courseDataSubmitted(originalCourseName, courseNameEdit->text(), courseCodeEdit->text(), courseInstructorEdit->text(),
         courseCreditsEdit->text(), courseTermEdit->text());
     accept();  // Close the dialog
