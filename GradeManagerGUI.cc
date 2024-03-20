@@ -228,5 +228,5 @@ void GradeManagerGUI::editSelectedGrade() {
 }
 
 void GradeManagerGUI::updateOverallGradeLabel() const {
-    ui->overallMarkLabel->setText("Overall Mark: " + QString::number((gradeManager.getAverage() * 100)) + "%");
+    ui->overallMarkLabel->setText("Overall Mark: " + QString::number(gradeManager.getAverage() * 100, 'f', 2) + "%");
 }
