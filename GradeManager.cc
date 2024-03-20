@@ -201,9 +201,21 @@ int GradeManager::getCourseId(const string& courseName) const {
     }
     std::cerr << "Error getting course ID from database" << std::endl;
     return -1;
-
 }
 
 vector<Grade*> GradeManager::getGrades(const Course* course) const {
     return course->getGrades();
+}
+
+void GradeManager::removeGradeFromDatabase(const std::string& courseName, const std::string& gradeName) {
+    const int courseId = getCourseId(courseName);
+    if (courseId == -1) {
+        std::cerr << "Course not found in database" << std::endl;
+        return;
+    }
+
+    std::string sql = "DELETE FROM Grade WHERE COURSEID = " + std::to_string(courseId) + " AND NAME = '" + gradeName + "';";
+    if (!executeSQL(sql)) {
+        std::cerr << "Error removing grade from database" << std::endl;
+    }
 }

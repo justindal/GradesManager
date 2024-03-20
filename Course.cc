@@ -117,6 +117,17 @@ Grade* Course::removeGrade(const int index) {
     return grade;
 }
 
+Grade* Course::removeGrade(Grade *grade) {
+    for (auto it = grades.begin(); it != grades.end(); ++it) {
+        if (*it == grade) {
+            grades.erase(it);
+            numGrades--;
+            return grade;
+        }
+    }
+    return nullptr;
+}
+
 void Course::printGrades() const {
     for (auto & grade : grades) {
         cout << *grade << endl;

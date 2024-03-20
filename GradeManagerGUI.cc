@@ -10,7 +10,6 @@
 #include "ui_GradeManagerGUI.h"
 
 #include <QMessageBox>
-#include <algorithm>
 
 
 GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
@@ -26,6 +25,7 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     connect(ui->addGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddGradeDialog);
     connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::populateGradeList);
     connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateGradeInfo);
+    connect(ui->removeGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::removeSelectedGrade);
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
@@ -186,5 +186,12 @@ void GradeManagerGUI::updateGradeInfo() const {
 }
 
 void GradeManagerGUI::removeSelectedGrade() {
-    //
+    if (getSelectedGrade()) {
+        string selectedCourseName = getSelectedCourse()->getCourseName();
+        string selectedGradeName = getSelectedGrade()->getName();
+        getSelectedCourse()->removeGrade(getSelectedGrade());
+        gradeManager.removeGradeFromDatabase(selectedCourseName, selectedGradeName);
+        populateGradeList();
+        ui->gradeInfoWidget->clear();
+    }
 }

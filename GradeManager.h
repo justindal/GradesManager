@@ -38,6 +38,7 @@ public:
     void updateCourseInDatabase(const string& courseName, Course* course) const;
 
     void addGradeToDatabase(Course* course, Grade* grade);
+    void removeGradeFromDatabase(const string &courseName, const string &gradeName);
 
     int getCourseId(const string& courseName) const;
     vector<Grade*> getGrades(const Course* course) const;

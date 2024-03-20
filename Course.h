@@ -42,6 +42,8 @@ class Course
         // Other Methods
         void addGrade(Grade *grade);
         Grade* removeGrade(const int index);
+        void removeGrade(const string& gradeName);
+        Grade* removeGrade(Grade* grade);
         void printGrades() const;
         void printCourse() const;
         string print() const;
