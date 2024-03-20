@@ -1,9 +1,3 @@
-//
-// Created by Justin Daludado on 2024-02-28.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_GradeManagerGUI.h" resolved
-
 #include "GradeManagerGUI.h"
 #include "AddCourseDialog.h"
 #include "AddGradeDialog.h"
@@ -215,5 +209,9 @@ void GradeManagerGUI::editSelectedGrade() {
 }
 
 void GradeManagerGUI::updateOverallGradeLabel() const {
+    if (gradeManager.getCourses().empty()) {
+        ui->overallMarkLabel->setText("No available marks.");
+        return;
+    }
     ui->overallMarkLabel->setText("Overall Mark: " + QString::number(gradeManager.getAverage() * 100, 'f', 2) + "%");
 }

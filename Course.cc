@@ -104,6 +104,7 @@ void Course::setCreditWorth(const float creditWorth) {
 
 [[nodiscard]] float Course::getAverage() const {
     float sum = 0;
+    float totalWeight = 0;
 
     if (getNumGrades() == 0)
         return 0;
@@ -112,8 +113,9 @@ void Course::setCreditWorth(const float creditWorth) {
         string mark = grade->getMark();
         const unsigned int slashIndex = mark.find('/');
         sum += stof(mark.substr(0, slashIndex)) / stof(mark.substr(slashIndex + 1)) * grade->getWeight();
+        totalWeight += grade->getWeight();
     }
-    return sum / numGrades;
+    return totalWeight == 0 ? 0 : sum / totalWeight;
 }
 
 // Other Methods

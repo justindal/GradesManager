@@ -245,6 +245,8 @@ float GradeManager::getAverage() const {
     float total = 0;
     unsigned int count = 0;
     for (const auto& course : courses) {
+        if (course->getNumGrades() == 0)
+            continue;
         total += course->getAverage();
         count++;
     }
