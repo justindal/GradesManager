@@ -219,3 +219,29 @@ void GradeManager::removeGradeFromDatabase(const std::string& courseName, const 
         std::cerr << "Error removing grade from database" << std::endl;
     }
 }
+
+void GradeManager::updateGradeInDatabase(const string& courseName, const string& originalGradeName, Grade* grade) const {
+    // First, get the gradeID for the given originalGradeName and courseName
+    const string selectSql = "SELECT ID FROM Grade WHERE NAME = '" + originalGradeName + "' AND COURSEID = " + std::to_string(getCourseId(courseName)) + ";";
+    QSqlQuery query(db);
+    if (!query.exec(QString::fromStdString(selectSql))) {
+        std::cerr << "SQL error: " << query.lastError().text().toStdString() << std::endl;
+        return;
+    }
+    if (query.next()) {
+        const int gradeId = query.value(0).toInt();
+
+        // Then, update the grade details using the gradeID
+        std::string updateSql = "UPDATE Grade SET "
+                                "NAME = '" + grade->getName() + "', "
+                                "MARK = '" + grade->getMark() + "', "
+                                "TYPE = '" + grade->getType() + "', "
+                                "WEIGHT = " + std::to_string(grade->getWeight()) +
+                                " WHERE ID = " + std::to_string(gradeId) + ";";
+        if (!executeSQL(updateSql)) {
+            std::cerr << "Error updating grade in database" << std::endl;
+        }
+    } else {
+        std::cerr << "Grade not found in database" << std::endl;
+    }
+}

@@ -38,15 +38,13 @@ private slots:
     void openAddGradeDialog() const;
     void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight);
     void populateGradeList() const;
-    void updateGradeInfo() const;
+    void updateGradeInfoWidget() const;
     void removeSelectedGrade();
-    // void editSelectedGrade();
+    void editSelectedGrade();
 
 private:
     Ui::GradeManagerGUI *ui;
     GradeManager gradeManager;
-    // AddCourseDialog *addCourseDialog;
-    AddGradeDialog *addGradeDialog;
 };
 
 

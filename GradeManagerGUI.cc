@@ -15,8 +15,8 @@
 GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     QWidget(parent), ui(new Ui::GradeManagerGUI) {
     ui->setupUi(this);
-    vector<Course*> courses = gradeManager.getCourses();
-    addGradeDialog = new AddGradeDialog(courses);
+    // vector<Course*> courses = gradeManager.getCourses();
+    // addGradeDialog = new AddGradeDialog(courses);
     connect(ui->addCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddCourseDialog);
     connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateCourseInfo);
     connect(ui->removeCourseButton, &QPushButton::clicked, this, &GradeManagerGUI::removeSelectedCourse);
@@ -24,8 +24,9 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     populateCourseList();
     connect(ui->addGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::openAddGradeDialog);
     connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::populateGradeList);
-    connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateGradeInfo);
+    connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateGradeInfoWidget);
     connect(ui->removeGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::removeSelectedGrade);
+    connect(ui->editGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::editSelectedGrade);
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
@@ -147,22 +148,33 @@ void GradeManagerGUI::openAddGradeDialog() const {
         QMessageBox::information(nullptr, "No Courses", "You must add a course before adding a grade.");
         return;
     }
+
+    auto *addGradeDialog = new AddGradeDialog(courses);
     connect(addGradeDialog, &AddGradeDialog::gradeDataSubmitted, this, &GradeManagerGUI::handleGradeData);
     addGradeDialog->setModal(true);
     addGradeDialog->exec();
 }
 
 void GradeManagerGUI::handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight) {
-    std::string selectedCourseCode = addGradeDialog->getSelectedCourseCode().toStdString();
     for (auto& course : gradeManager.getCourses()) {
-        if (course->getCourseCode() == selectedCourseCode) {
-            // Create a new grade
-            auto* grade = new Grade(gradeMark.toStdString(), gradeName.toStdString(), gradeType.toStdString(), gradeWeight.toFloat());
-            // Add the new grade to the course
+        if (course->getCourseCode() == getSelectedCourse()->getCourseCode()) {
+            for (auto& grade : course->getGrades()) {
+                if (grade->getName() == originalGradeName.toStdString()) {
+                    // Update existing grade
+                    grade->setName(gradeName.toStdString());
+                    grade->setType(gradeType.toStdString());
+                    grade->setMark(gradeMark.toStdString());
+                    grade->setWeight(gradeWeight.toFloat());
+                    gradeManager.updateGradeInDatabase(course->getCourseName(), originalGradeName.toStdString(), grade);
+                    populateGradeList();
+                    ui->gradeInfoWidget->clear();
+                    return;
+                }
+            }
+            // Add new grade
+            auto* grade = new Grade(gradeName.toStdString(), gradeType.toStdString(), gradeMark.toStdString(), gradeWeight.toFloat());
             course->addGrade(grade);
-            // Add the new grade to the database
             gradeManager.addGradeToDatabase(course, grade);
-            // Update the grade list widget
             populateGradeList();
             return;
         }
@@ -179,7 +191,7 @@ void GradeManagerGUI::populateGradeList() const {
 
 }
 
-void GradeManagerGUI::updateGradeInfo() const {
+void GradeManagerGUI::updateGradeInfoWidget() const {
     if (getSelectedGrade()) {
         ui->gradeInfoWidget->setText(QString::fromStdString(getSelectedGrade()->print()));
     }
@@ -193,5 +205,19 @@ void GradeManagerGUI::removeSelectedGrade() {
         gradeManager.removeGradeFromDatabase(selectedCourseName, selectedGradeName);
         populateGradeList();
         ui->gradeInfoWidget->clear();
+    }
+}
+
+void GradeManagerGUI::editSelectedGrade() {
+    if (getSelectedGrade()) {
+        string selectedCourseName = getSelectedCourse()->getCourseName();
+        string selectedGradeName = getSelectedGrade()->getName();
+        auto courses = gradeManager.getCourses();
+        auto *addGradeDialog = new AddGradeDialog(courses, getSelectedGrade());
+        connect(addGradeDialog, &AddGradeDialog::gradeDataSubmitted, this, [this](const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight) {
+            handleGradeData(originalGradeName, gradeName, gradeType, gradeMark, gradeWeight);
+        });
+        addGradeDialog->setModal(true);
+        addGradeDialog->exec();
     }
 }
