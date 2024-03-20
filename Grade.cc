@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <sstream>
 
-Grade::Grade(const string& mark, const string& name, const string& type, float weight) {
+Grade::Grade(const string& mark, const string& name, const string& type, const float weight) {
     this->mark = mark;
     this->name = name;
     this->type = type;
@@ -48,7 +48,7 @@ float Grade::getWeight() const {
     return weight;
 }
 
-void Grade::setWeight(float weight) {
+void Grade::setWeight(const float weight) {
     this->weight = weight;
 }
 

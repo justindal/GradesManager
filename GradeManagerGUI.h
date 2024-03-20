@@ -37,10 +37,11 @@ private slots:
     void editSelectedCourse();
 
     void openAddGradeDialog() const;
-    void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight);
+    void handleGradeData(const QString &originalGradeName, const QString &gradeName, const QString &gradeType, const QString &gradeMark, const QString &gradeWeight) const
+    ;
     void populateGradeList() const;
     void updateGradeInfoWidget() const;
-    void removeSelectedGrade();
+    void removeSelectedGrade() const;
     void editSelectedGrade();
 
 private:

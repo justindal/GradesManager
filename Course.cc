@@ -111,7 +111,7 @@ void Course::setCreditWorth(const float creditWorth) {
     for (auto & grade : grades) {
         string mark = grade->getMark();
         const unsigned int slashIndex = mark.find('/');
-        sum += stof(mark.substr(0, slashIndex)) / stof(mark.substr(slashIndex + 1));
+        sum += stof(mark.substr(0, slashIndex)) / stof(mark.substr(slashIndex + 1)) * grade->getWeight();
     }
     return sum / numGrades;
 }
@@ -164,7 +164,7 @@ string Course::print() const {
     output << "Professor: " << prof << "\n\n";
     output << "Term: " << term << "\n\n";
     output << "Credit Worth: " << creditWorth << "\n\n";
-    output << "Mark: " << (getAverage() * 100) << "%\n\n";
+    output << "Mark: " << getAverage() * 100 << "%\n\n";
 
     return output.str();
 }

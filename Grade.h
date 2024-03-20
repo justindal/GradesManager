@@ -13,7 +13,6 @@ using namespace std;
 class Grade {
 public:
     // Constructors and Destructors
-    Grade(const string& mark, const string& name, const string& type, float weight, const string& letterGrade);
     Grade(const string& mark, const string& name, const string& type, float weight);
     Grade();
 
@@ -29,8 +28,7 @@ public:
 
     // Other Methods
     void printGrade() const;
-    string print() const;
-    void calculateLetterGrade();
+    [[nodiscard]] string print() const;
 
     // Overloaded Operators
     friend ostream& operator<<(ostream& out, const Grade& grade);
