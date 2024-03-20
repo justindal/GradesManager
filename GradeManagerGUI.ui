@@ -36,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>90</y>
+     <y>70</y>
      <width>741</width>
      <height>31</height>
     </rect>
@@ -74,7 +74,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>130</y>
+     <y>110</y>
      <width>741</width>
      <height>251</height>
     </rect>
@@ -158,7 +158,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>390</y>
+     <y>370</y>
      <width>367</width>
      <height>61</height>
     </rect>
@@ -191,7 +191,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>390</y>
+     <y>370</y>
      <width>341</width>
      <height>61</height>
     </rect>
@@ -219,6 +219,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="overallMarkLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>450</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Overall Mark:</string>
+   </property>
   </widget>
  </widget>
  <resources/>

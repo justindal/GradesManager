@@ -43,6 +43,8 @@ public:
 
     [[nodiscard]] int getCourseId(const string& courseName) const;
 
+    float getAverage() const;
+
 private:
     std::vector<Course*> courses;
     QSqlDatabase db;

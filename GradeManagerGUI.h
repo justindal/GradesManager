@@ -25,6 +25,7 @@ public:
     ~GradeManagerGUI() override;
     Course* getSelectedCourse() const;
     Grade* getSelectedGrade() const;
+    void updateOverallGradeLabel() const;
 
 private slots:
     void openAddCourseDialog() const;

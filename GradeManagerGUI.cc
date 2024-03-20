@@ -27,6 +27,9 @@ GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
     connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateGradeInfoWidget);
     connect(ui->removeGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::removeSelectedGrade);
     connect(ui->editGradeButton, &QPushButton::clicked, this, &GradeManagerGUI::editSelectedGrade);
+    connect(ui->courseListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateOverallGradeLabel);
+    connect(ui->gradeListWidget, &QListWidget::itemSelectionChanged, this, &GradeManagerGUI::updateOverallGradeLabel);
+    updateOverallGradeLabel();
 }
 
 GradeManagerGUI::~GradeManagerGUI() {
@@ -88,6 +91,7 @@ void GradeManagerGUI::handleCourseData(const QString &originalCourseName, const 
     // Add new course
     auto* course = new Course(courseName.toStdString(), courseCode.toStdString(), courseInstructor.toStdString(), courseTerm.toStdString(), courseCredits.toFloat());
     gradeManager.addCourse(course);
+    updateOverallGradeLabel();
     populateCourseList();
 }
 
@@ -172,9 +176,10 @@ void GradeManagerGUI::handleGradeData(const QString &originalGradeName, const QS
                 }
             }
             // Add new grade
-            auto* grade = new Grade(gradeName.toStdString(), gradeType.toStdString(), gradeMark.toStdString(), gradeWeight.toFloat());
+            auto* grade = new Grade(gradeMark.toStdString(), gradeName.toStdString(), gradeType.toStdString(), gradeWeight.toFloat());
             course->addGrade(grade);
             gradeManager.addGradeToDatabase(course, grade);
+            updateOverallGradeLabel();
             populateGradeList();
             return;
         }
@@ -220,4 +225,8 @@ void GradeManagerGUI::editSelectedGrade() {
         addGradeDialog->setModal(true);
         addGradeDialog->exec();
     }
+}
+
+void GradeManagerGUI::updateOverallGradeLabel() const {
+    ui->overallMarkLabel->setText("Overall Mark: " + QString::number((gradeManager.getAverage() * 100)) + "%");
 }

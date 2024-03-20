@@ -240,3 +240,13 @@ void GradeManager::updateGradeInDatabase(const string& courseName, const string&
         std::cerr << "Grade not found in database" << std::endl;
     }
 }
+
+float GradeManager::getAverage() const {
+    float total = 0;
+    unsigned int count = 0;
+    for (const auto& course : courses) {
+        total += course->getAverage();
+        count++;
+    }
+    return total / count;
+}
