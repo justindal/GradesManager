@@ -47,8 +47,6 @@ class Course
         void printGrades() const;
         void printCourse() const;
         string print() const;
-        void printLetterGrade() const;
-        void calculateMark();
 
         // Overloaded Operators
         friend ostream& operator<<(ostream& out, const Course& course);

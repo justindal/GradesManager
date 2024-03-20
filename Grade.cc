@@ -60,7 +60,7 @@ void Grade::printGrade() const {
 }
 
 string Grade::print() const {
-    std::ostringstream output;
+    ostringstream output;
     output << std::fixed << std::setprecision(2);
     output << "Name: " << name << "\n\n";
     output << "Type: " << type << "\n\n";

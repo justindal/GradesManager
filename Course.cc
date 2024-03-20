@@ -4,6 +4,9 @@
 
 #include "Course.h"
 
+#include <iomanip>
+#include <sstream>
+
 Course::Course(const string& courseName, const string& courseCode, const string& prof, const string& term, const float creditWorth) {
     this->courseName = courseName;
     this->courseCode = courseCode;
@@ -100,8 +103,17 @@ void Course::setCreditWorth(const float creditWorth) {
 }
 
 [[nodiscard]] float Course::getAverage() const {
-    // todo
-    return 0;
+    float sum = 0;
+
+    if (getNumGrades() == 0)
+        return 0;
+
+    for (auto & grade : grades) {
+        string mark = grade->getMark();
+        const unsigned int slashIndex = mark.find('/');
+        sum += stof(mark.substr(0, slashIndex)) / stof(mark.substr(slashIndex + 1));
+    }
+    return sum / numGrades;
 }
 
 // Other Methods
@@ -145,30 +157,16 @@ void Course::printCourse() const {
 }
 
 string Course::print() const {
+    ostringstream output;
+    output << std::fixed << std::setprecision(2);
+    output << "Course Name: " << courseName << "\n\n";
+    output << "Course Code: " << courseCode << "\n\n";
+    output << "Professor: " << prof << "\n\n";
+    output << "Term: " << term << "\n\n";
+    output << "Credit Worth: " << creditWorth << "\n\n";
+    output << "Mark: " << (getAverage() * 100) << "%\n\n";
 
-    string output = "Course Name: " + courseName + "\n\n" +
-                    "Course Code: " + courseCode + "\n\n" +
-                    "Professor: " + prof + "\n\n" +
-                    "Term: " + term + "\n\n" +
-                    "Credit Worth: " + to_string(creditWorth) + "\n\n" +
-                        "Mark: " + to_string(mark);
-    return output;
-
-}
-
-void Course::printLetterGrade() const {
-    cout << "Course Name: " << courseName << endl;
-    cout << "Course Code: " << courseCode << endl;
-    cout << "Professor: " << prof << endl;
-    cout << "Term: " << term << endl;
-    cout << "Mark: " << mark << endl;
-    for (auto & grade : grades) {
-        cout << *grade << endl;
-    }
-}
-
-void Course::calculateMark() {
-    // todo
+    return output.str();
 }
 
 // Overloaded Operators
