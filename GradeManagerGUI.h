@@ -23,8 +23,8 @@ Q_OBJECT
 public:
     explicit GradeManagerGUI(QWidget *parent = nullptr);
     ~GradeManagerGUI() override;
-    QListWidgetItem* getSelectedCourse() const;
-    QListWidgetItem* getSelectedGrade() const;
+    Course* getSelectedCourse() const;
+    Grade* getSelectedGrade() const;
 
 private slots:
     void openAddCourseDialog() const;

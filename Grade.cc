@@ -3,6 +3,8 @@
 //
 
 #include "Grade.h"
+#include <iomanip>
+#include <sstream>
 
 Grade::Grade(const string& mark, const string& name, const string& type, float weight) {
     this->mark = mark;
@@ -58,12 +60,13 @@ void Grade::printGrade() const {
 }
 
 string Grade::print() const {
-    string output;
-    output += "Name: " + name + "\n\n";
-    output += "Type: " + type + "\n\n";
-    output += "Mark: " + mark + "\n\n";
-    output += "Weight: " + to_string(weight * 100) + "%\n";
-    return output;
+    std::ostringstream output;
+    output << std::fixed << std::setprecision(2);
+    output << "Name: " << name << "\n\n";
+    output << "Type: " << type << "\n\n";
+    output << "Mark: " << mark << "\n\n";
+    output << "Weight: " << weight * 100 << "%\n";
+    return output.str();
 }
 
 void Grade::calculateLetterGrade() {

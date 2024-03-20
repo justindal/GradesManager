@@ -10,6 +10,7 @@
 #include "ui_GradeManagerGUI.h"
 
 #include <QMessageBox>
+#include <algorithm>
 
 
 GradeManagerGUI::GradeManagerGUI(QWidget *parent) :
@@ -31,12 +32,30 @@ GradeManagerGUI::~GradeManagerGUI() {
     delete ui;
 }
 
-QListWidgetItem* GradeManagerGUI::getSelectedCourse() const {
-    return ui->courseListWidget->currentItem(); // error handling?
+Course* GradeManagerGUI::getSelectedCourse() const {
+    if (ui->courseListWidget->currentItem()) {
+        const auto selectedName = ui->courseListWidget->currentItem()->text().toStdString();
+        for (const auto& course : gradeManager.getCourses()) {
+            if (course->getCourseName() == selectedName) {
+                return course;
+            }
+        }
+    }
+    return nullptr;
 }
 
-QListWidgetItem* GradeManagerGUI::getSelectedGrade() const {
-    return ui->gradeListWidget->currentItem();
+Grade* GradeManagerGUI::getSelectedGrade() const {
+    if (ui->gradeListWidget->currentItem()) {
+        const auto selectedName = ui->gradeListWidget->currentItem()->text().toStdString();
+        for (const auto& course : gradeManager.getCourses()) {
+            for (const auto& grade : course->getGrades()) {
+                if (grade->getName() == selectedName) {
+                    return grade;
+                }
+            }
+        }
+    }
+    return nullptr;
 }
 
 // Course Handling
@@ -152,38 +171,20 @@ void GradeManagerGUI::handleGradeData(const QString &originalGradeName, const QS
 
 void GradeManagerGUI::populateGradeList() const {
     ui->gradeListWidget->clear();
-    QListWidgetItem* selectedItem = ui->courseListWidget->currentItem();
-    if (selectedItem) {
-        std::string selectedCourseName = selectedItem->text().toStdString();
-        for (const auto& course : gradeManager.getCourses()) {
-            if (course->getCourseName() == selectedCourseName) {
-                for (const auto& grade : course->getGrades()) {
-                    ui->gradeListWidget->addItem(QString::fromStdString(grade->getName()));
-                }
-                break;
-            }
+    if (getSelectedCourse()) {
+        for (const auto& grade : getSelectedCourse()->getGrades()) {
+            ui->gradeListWidget->addItem(QString::fromStdString(grade->getName()));
         }
     }
 
 }
 
 void GradeManagerGUI::updateGradeInfo() const {
-    const auto selectedGradeName = getSelectedGrade()->text().toStdString();
-    const auto selectedCourseName = getSelectedCourse()->text().toStdString();
-    for (const auto& course : gradeManager.getCourses()) {
-        if (course->getCourseName() == selectedCourseName) {
-            for (const auto& grade : course->getGrades()) {
-                if (selectedGradeName == grade->getName()) {
-                    ui->gradeInfoWidget->setText(QString::fromStdString(grade->print()));
-                }
-            }
-        }
+    if (getSelectedGrade()) {
+        ui->gradeInfoWidget->setText(QString::fromStdString(getSelectedGrade()->print()));
     }
 }
 
 void GradeManagerGUI::removeSelectedGrade() {
-    QListWidgetItem* selectedGrade = getSelectedGrade();
-    if (selectedGrade) {
-
-    }
+    //
 }
