@@ -12,7 +12,7 @@ class AddGradeDialog final: public QDialog {
     Q_OBJECT
 
 public:
-    explicit AddGradeDialog(vector<Course*> &courses, Grade* grade = nullptr, QWidget *parent = nullptr);
+    explicit AddGradeDialog(const vector<Course*> &courses, const Grade* grade = nullptr, QWidget *parent = nullptr);
     [[nodiscard]] QString getSelectedCourseCode() const;
 
 private:

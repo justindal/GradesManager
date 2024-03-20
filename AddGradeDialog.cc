@@ -1,11 +1,10 @@
 #include "AddGradeDialog.h"
 #include "GradeManagerGUI.h"
 #include "ui_GradeManagerGUI.h"
-#include <QPushButton>
 #include <QFormLayout>
 
 
-AddGradeDialog::AddGradeDialog(vector<Course*>& courses, Grade* grade, QWidget *parent) : QDialog(parent) {
+AddGradeDialog::AddGradeDialog(const vector<Course*>& courses, const Grade* grade, QWidget *parent) : QDialog(parent) {
     setWindowTitle("Add Grade");
 
     const auto layout = new QFormLayout(this);

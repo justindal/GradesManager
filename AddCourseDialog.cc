@@ -1,10 +1,9 @@
 #include "AddCourseDialog.h"
 #include "ui_GradeManagerGUI.h"
-#include <QPushButton>
 #include <QFormLayout>
 
 
-AddCourseDialog::AddCourseDialog(Course* course, QWidget *parent) : QDialog(parent) {
+AddCourseDialog::AddCourseDialog(const Course* course, QWidget *parent) : QDialog(parent) {
     setWindowTitle("Add Course");
 
     const auto layout = new QFormLayout(this);

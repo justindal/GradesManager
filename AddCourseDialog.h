@@ -11,7 +11,7 @@ class AddCourseDialog final: public QDialog {
     Q_OBJECT
 
 public:
-    explicit AddCourseDialog(Course* course = nullptr, QWidget *parent = nullptr);
+    explicit AddCourseDialog(const Course* course = nullptr, QWidget *parent = nullptr);
 
 private:
     QLineEdit *courseNameEdit;

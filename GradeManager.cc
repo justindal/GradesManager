@@ -121,7 +121,7 @@ void GradeManager::readCoursesFromDatabase() {
 
     // Read grades from database
     for (auto& course : courses) {
-        const std::string sql = "SELECT * FROM Grade WHERE COURSEID = " + std::to_string(getCourseId(course->getCourseName())) + ";";
+        const string sql = "SELECT * FROM Grade WHERE COURSEID = " + std::to_string(getCourseId(course->getCourseName())) + ";";
         QSqlQuery query(db);
         if (!query.exec(QString::fromStdString(sql))) {
             std::cerr << "Error reading grades from database: " << query.lastError().text().toStdString() << std::endl;
@@ -153,8 +153,7 @@ Course* GradeManager::removeCourse(const std::string& courseName) {
     return nullptr;
 }
 
-void GradeManager::updateCourseInDatabase(const string& originalCourseName, Course* course) const {
-    // First, get the courseID for the given originalCourseName
+void GradeManager::updateCourseInDatabase(const string& originalCourseName, const Course* course) const {
     const string selectSql = "SELECT ID FROM Course WHERE COURSENAME = '" + originalCourseName + "';";
     QSqlQuery query(db);
     if (!query.exec(QString::fromStdString(selectSql))) {
@@ -181,7 +180,7 @@ void GradeManager::updateCourseInDatabase(const string& originalCourseName, Cour
     }
 }
 
-void GradeManager::addGradeToDatabase(Course* course, Grade* grade) {
+void GradeManager::addGradeToDatabase(const Course* course, const Grade* grade) const {
     const std::string sql = "INSERT INTO Grade (COURSEID, NAME, MARK, TYPE, WEIGHT) VALUES ("
                             + std::to_string(getCourseId(course->getCourseName())) + ", '"
                             + grade->getName() + "', '"
@@ -203,11 +202,7 @@ int GradeManager::getCourseId(const string& courseName) const {
     return -1;
 }
 
-vector<Grade*> GradeManager::getGrades(const Course* course) const {
-    return course->getGrades();
-}
-
-void GradeManager::removeGradeFromDatabase(const std::string& courseName, const std::string& gradeName) {
+void GradeManager::removeGradeFromDatabase(const std::string& courseName, const std::string& gradeName) const {
     const int courseId = getCourseId(courseName);
     if (courseId == -1) {
         std::cerr << "Course not found in database" << std::endl;
@@ -220,7 +215,7 @@ void GradeManager::removeGradeFromDatabase(const std::string& courseName, const 
     }
 }
 
-void GradeManager::updateGradeInDatabase(const string& courseName, const string& originalGradeName, Grade* grade) const {
+void GradeManager::updateGradeInDatabase(const string& courseName, const string& originalGradeName, const Grade* grade) const {
     // First, get the gradeID for the given originalGradeName and courseName
     const string selectSql = "SELECT ID FROM Grade WHERE NAME = '" + originalGradeName + "' AND COURSEID = " + std::to_string(getCourseId(courseName)) + ";";
     QSqlQuery query(db);

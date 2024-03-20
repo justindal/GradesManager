@@ -51,7 +51,7 @@ void Course::setNumGrades(const int numGrades) {
     return grades;
 }
 
-void Course::setGrades(vector<Grade *>& grades) {
+void Course::setGrades(const vector<Grade *>& grades) {
     this->grades = grades;
 }
 

@@ -25,7 +25,7 @@ class Course
         [[nodiscard]] int getNumGrades() const;
         void setNumGrades(const int numGrades);
         [[nodiscard]] vector<Grade *> getGrades() const;
-        void setGrades(vector<Grade *>& grades);
+        void setGrades(const vector<Grade *>& grades);
         [[nodiscard]] string getProf() const;
         void setProf(const string& prof);
         [[nodiscard]] string getTerm() const;

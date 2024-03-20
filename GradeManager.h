@@ -35,14 +35,13 @@ public:
     void addGradeToCourse(int index, Grade* grade);
     void removeGradeFromCourse(int courseIndex, int gradeIndex);
     void readCoursesFromDatabase();
-    void updateCourseInDatabase(const string& courseName, Course* course) const;
+    void updateCourseInDatabase(const string& courseName, const Course* course) const;
 
-    void addGradeToDatabase(Course* course, Grade* grade);
-    void removeGradeFromDatabase(const string &courseName, const string &gradeName);
-    void updateGradeInDatabase(const string &courseName, const string &originalGradeName, Grade* grade) const;
+    void addGradeToDatabase(const Course* course, const Grade* grade) const;
+    void removeGradeFromDatabase(const string &courseName, const string &gradeName) const;
+    void updateGradeInDatabase(const string &courseName, const string &originalGradeName, const Grade* grade) const;
 
     [[nodiscard]] int getCourseId(const string& courseName) const;
-    vector<Grade*> getGrades(const Course* course) const;
 
 private:
     std::vector<Course*> courses;
